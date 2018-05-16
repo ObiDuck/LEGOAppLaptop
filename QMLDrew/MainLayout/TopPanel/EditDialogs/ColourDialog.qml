@@ -2,6 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.1
+import "./../../../CustomizedItems"
 
 Dialog {
     //диалог редактирования таблицы цвета в БД
@@ -17,7 +18,7 @@ Dialog {
     enter: Transition {
               NumberAnimation { property: "opacity"; from: 0.0; to: 1.0 }
           } 
-    background: MyBackgroundRectangle {}
+    background: CustomBackgroundRectangle {}
 
     onClosed: {
         myString.push(nameField.text)
@@ -43,19 +44,19 @@ Dialog {
         }
     }
     //диалог для выбора цвета
-    MyColorDialog {id: colorDlg}
+    CustomColorDialog {id: colorDlg}
 
     ColumnLayout{
         id: mainLayout
         GridLayout {  //сетка с данными для таблицы
             columns: 2
-            MyLabel {text: "Имя"}//"Name"}
+            CustomLabel {text: "Имя"}//"Name"}
             TextField {
                 id: nameField
                 placeholderText: "Имя цвета"//"color name"
                 Layout.fillWidth: true
             }
-            MyLabel {text: "Семейство цвета"}//"Color Family"}
+            CustomLabel {text: "Семейство цвета"}//"Color Family"}
             ComboBox {
                 id: familyBox
                 model: colorFamilyModel
@@ -69,7 +70,7 @@ Dialog {
                           radius: 2
                       }
             }
-            MyLabel {text: "Цвет"}//"Color"}
+            CustomLabel {text: "Цвет"}//"Color"}
             Rectangle {
                 width: 100
                 height: 40
@@ -88,7 +89,7 @@ Dialog {
                 id: deleteButton
                 Image {
                     anchors.fill: parent
-                    source: "assets/clr_delBttn.png"
+                    source: "./../../../assets/clr_delBttn.png"
                 }
                 radius: rad
                 onClicked: dbColor.deleteItem()
@@ -99,7 +100,7 @@ Dialog {
                 radius: rad
                 Image {
                     anchors.fill: parent
-                    source: "assets/clr_firstBttn.png"
+                    source: "./../../../assets/clr_firstBttn.png"
                 }
                 onClicked: {
                     myString.push(nameField.text)
@@ -118,7 +119,7 @@ Dialog {
                 radius: rad
                 Image {
                     anchors.fill: parent
-                    source: "assets/clr_prevBttn.png"
+                    source: "./../../../assets/clr_prevBttn.png"
                 }
                 onClicked: {
                     myString.push(nameField.text)
@@ -154,7 +155,7 @@ Dialog {
                 radius: rad
                 Image {
                     anchors.fill: parent
-                    source: "assets/clr_nextBttn.png"
+                    source: "./../../../assets/clr_nextBttn.png"
                 }
                 onClicked: {
                     myString.push(nameField.text)
@@ -173,7 +174,7 @@ Dialog {
                 radius: rad
                 Image {
                     anchors.fill: parent
-                    source: "assets/clr_lastBttn.png"
+                    source: "./../../../assets/clr_lastBttn.png"
                 }
                 onClicked: {
                     myString.push(nameField.text)
@@ -192,7 +193,7 @@ Dialog {
                 radius: rad
                 Image {
                     anchors.fill: parent
-                    source: "assets/clr_addBttn.png"
+                    source: "./../../../assets/clr_addBttn.png"
                 }
                 onClicked: {
                     myString.push(nameField.text)

@@ -23,10 +23,10 @@ Dialog {
             width: 50
             height: 50
             source: switch (iconID) {
-                case 1: "assets/clr_info.png"; break
-                case 2: "assets/clr_warning.png"; break
-                case 3: "assets/clr_critical.png"; break
-                case 4: "assets/clr_question.png"; break
+                case 1: "./../assets/clr_info.png"; break
+                case 2: "./../assets/clr_warning.png"; break
+                case 3: "./../assets/clr_critical.png"; break
+                case 4: "./../assets/clr_question.png"; break
                     }
         }
     }

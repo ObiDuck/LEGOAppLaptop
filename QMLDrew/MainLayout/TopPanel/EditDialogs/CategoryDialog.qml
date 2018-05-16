@@ -2,6 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.1
+import "./../../../CustomizedItems"
 
 Dialog {
     //диалог редактирования таблицы подкатегории
@@ -15,7 +16,7 @@ Dialog {
     //размещение окна по центру экрана
     leftMargin: (parent.width - width)/2
     topMargin: (parent.height - height)/2
-    background: MyBackgroundRectangle {}
+    background: CustomBackgroundRectangle {}
     modal: true
     enter: Transition {
               NumberAnimation { property: "opacity"; from: 0.0; to: 1.0 }
@@ -52,7 +53,7 @@ Dialog {
     }
 
     //файл-диалог для загрузки иконки подкатегории
-    MyFileDialog {
+    CustomFileDialog {
         id: iconDlg
         nameFilters: ["PNG images (*.png)"]
         onAccepted:
@@ -68,14 +69,14 @@ Dialog {
         ColumnLayout {//столбец со всеми элементами помимо картинки
             GridLayout {//сетка с управляющими элементами
                 columns: 2
-                MyLabel {text: "Имя"}//"Name"}
+                CustomLabel {text: "Имя"}//"Name"}
                 TextField {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     id: nameField
                     placeholderText: "Имя подкатегории"//"name of subcategory"
                 }
-                MyLabel {text: "Категория"}//"Category"}
+                CustomLabel {text: "Категория"}//"Category"}
                 ComboBox {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
@@ -104,7 +105,7 @@ Dialog {
                     id: deleteButton
                     Image {
                         anchors.fill: parent
-                        source: "assets/clr_delBttn.png"
+                        source: "./../../../assets/clr_delBttn.png"
                     }
                     radius: rad
                     onClicked: dbSubCategory.deleteItem()
@@ -115,7 +116,7 @@ Dialog {
                     radius: rad
                     Image {
                         anchors.fill: parent
-                        source: "assets/clr_firstBttn.png"
+                        source: "./../../../assets/clr_firstBttn.png"
                     }
                     onClicked: {
                         myString.push(nameField.text)
@@ -133,7 +134,7 @@ Dialog {
                     radius: rad
                     Image {
                         anchors.fill: parent
-                        source: "assets/clr_prevBttn.png"
+                        source: "./../../../assets/clr_prevBttn.png"
                     }
                     onClicked: {
                         myString.push(nameField.text)
@@ -167,7 +168,7 @@ Dialog {
                     radius: rad
                     Image {
                         anchors.fill: parent
-                        source: "assets/clr_nextBttn.png"
+                        source: "./../../../assets/clr_nextBttn.png"
                     }
                     onClicked: {
                         myString.push(nameField.text)
@@ -185,7 +186,7 @@ Dialog {
                     radius: rad
                     Image {
                         anchors.fill: parent
-                        source: "assets/clr_lastBttn.png"
+                        source: "./../../../assets/clr_lastBttn.png"
                     }
                     onClicked: {
                         myString.push(nameField.text)
@@ -203,7 +204,7 @@ Dialog {
                     radius: rad
                     Image {
                         anchors.fill: parent
-                        source: "assets/clr_addBttn.png"
+                        source: "./../../../assets/clr_addBttn.png"
                     }
                     onClicked: {
                         myString.push(nameField.text)
@@ -220,7 +221,7 @@ Dialog {
 
         Image {
             id: imageSubCategory
-            source:  (pathField.text === "") ? "assets/clr_iconPic.png" : "image://imageProvider/dbSubCategory/" + idField.text + newImage
+            source:  (pathField.text === "") ? "./../../../assets/clr_iconPic.png" : "image://imageProvider/dbSubCategory/" + idField.text + newImage
             cache: false
             Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
             Layout.preferredWidth: 100

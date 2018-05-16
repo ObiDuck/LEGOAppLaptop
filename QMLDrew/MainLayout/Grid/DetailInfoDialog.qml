@@ -2,6 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.1
+import "./../../CustomizedItems"
 
 Dialog {
     property int margin: 11
@@ -10,11 +11,11 @@ Dialog {
     height: 200*2
     width: 245*2
 
-    background: MyBackgroundRectangle {}
-    header: MyHeaderRectangle {
+    background: CustomBackgroundRectangle {}
+    header: CustomHeaderRectangle {
         width: parent.width
         height: sizeOfItems+4
-        MyItemRectangle {
+        CustomItemRectangle {
             anchors.left: parent.left
             anchors.leftMargin: (sizeOfItems*7 - sizeOfItems*6 - 2*6)/2
             anchors.top: parent.top
@@ -25,10 +26,10 @@ Dialog {
             Image {
                 fillMode: Image.PreserveAspectFit
                 anchors.fill: parent
-                source: "assets/clr_placeBox.png"
+                source: "./../../assets/clr_placeBox.png"
             }
         }
-        MyItemRectangle {
+        CustomItemRectangle {
             id: rowLabelRect
             anchors.left: boxLabelRect.right
             anchors.leftMargin: 2
@@ -39,10 +40,10 @@ Dialog {
             Image {
                 fillMode: Image.PreserveAspectFit
                 anchors.fill: parent
-                source: "assets/clr_row.png"
+                source: "./../../assets/clr_row.png"
             }
         }
-        MyItemRectangle {
+        CustomItemRectangle {
             id: columnLabelRect
             anchors.left: rowLabelRect.right
             anchors.leftMargin: 2
@@ -53,10 +54,10 @@ Dialog {
             Image {
                 fillMode: Image.PreserveAspectFit
                 anchors.fill: parent
-                source: "assets/clr_column.png"
+                source: "./../../assets/clr_column.png"
             }
         }
-        MyItemRectangle {
+        CustomItemRectangle {
             id: colorLabelRect
             anchors.left: columnLabelRect.right
             anchors.leftMargin: 2
@@ -67,10 +68,10 @@ Dialog {
             Image {
                 fillMode: Image.PreserveAspectFit
                 anchors.fill: parent
-                source: "assets/clr_color.png"
+                source: "./../../assets/clr_color.png"
             }
         }
-        MyItemRectangle {
+        CustomItemRectangle {
             id: countLabelRect
             anchors.left: colorLabelRect.right
             anchors.leftMargin: 2
@@ -81,10 +82,10 @@ Dialog {
             Image {
                 fillMode: Image.PreserveAspectFit
                 anchors.fill: parent
-                source: "assets/clr_count.png"
+                source: "./../../assets/clr_count.png"
             }
         }
-        MyItemRectangle {
+        CustomItemRectangle {
             id: editLabelRect
             anchors.left: countLabelRect.right
             anchors.leftMargin: 2
@@ -95,7 +96,7 @@ Dialog {
             Image {
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
-                source: "assets/clr_iconEdit.png"
+                source: "./../../assets/clr_iconEdit.png"
             }
         }
     }
@@ -114,7 +115,7 @@ Dialog {
         model: detailInfoModel
         delegate: Row {
             spacing: 2
-            MyItemRectangle {
+            CustomItemRectangle {
                 width: sizeOfItems
                 height: sizeOfItems
                 Layout.fillWidth: true
@@ -127,7 +128,7 @@ Dialog {
                 }
             }
 
-            MyItemRectangle {
+            CustomItemRectangle {
                 width: sizeOfItems
                 height: sizeOfItems
                 Layout.fillWidth: true
@@ -140,7 +141,7 @@ Dialog {
                 }
             }
 
-            MyItemRectangle {
+            CustomItemRectangle {
                 width: sizeOfItems
                 height: sizeOfItems
                 Layout.fillWidth: true
@@ -153,7 +154,7 @@ Dialog {
                 }
             }
 
-            MyItemRectangle {
+            CustomItemRectangle {
                 width: sizeOfItems
                 height: sizeOfItems
                 color: colorrole
@@ -167,18 +168,18 @@ Dialog {
                 Layout.fillWidth: true
             }
 
-            MyCountItem {
+            CustomCountItem {
                 width: sizeOfItems
                 height: sizeOfItems
                 percentCount: count
             }
 
-            MyItemRectangle {
+            CustomItemRectangle {
                 width: sizeOfItems
                 height: sizeOfItems
                 Image {
                     anchors.fill: parent
-                    source:"assets/clr_edit.png"
+                    source:"./../../assets/clr_edit.png"
                 }
                 MouseArea {
                     width: parent.width

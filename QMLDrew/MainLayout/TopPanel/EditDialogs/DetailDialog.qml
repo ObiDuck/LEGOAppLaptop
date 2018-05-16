@@ -2,6 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.1
+import "./../../../CustomizedItems"
 
 Dialog {
     property int margin: 11
@@ -18,7 +19,7 @@ Dialog {
     enter: Transition {
               NumberAnimation { property: "opacity"; from: 0.0; to: 1.0 }
           }
-    background: MyBackgroundRectangle {}
+    background: CustomBackgroundRectangle {}
 
     onClosed: {
         myString.push(nameField.text)
@@ -43,7 +44,7 @@ Dialog {
         }
     }
 
-    MyFileDialog {id: iconDlg
+    CustomFileDialog {id: iconDlg
         nameFilters: ["PNG images (*.png)"]
         onAccepted:
         {
@@ -57,7 +58,7 @@ Dialog {
         RowLayout {
             GridLayout {
                 columns: 2
-                MyLabel {text: "Имя:"}//"Name:"}
+                CustomLabel {text: "Имя:"}//"Name:"}
                 TextField {
                     id: nameField
                     Layout.alignment: Qt.AlignRight
@@ -65,7 +66,7 @@ Dialog {
                     Layout.preferredWidth: 50
                     placeholderText: "Detail name"
                 }
-                MyLabel {text: "Подкатегория:"}//"SubCategory:"}
+                CustomLabel {text: "Подкатегория:"}//"SubCategory:"}
                 Image {
                     id: mainImgSubCat
                     source: "image://imageProvider/dbSubCategory/" + idCategory
@@ -86,7 +87,7 @@ Dialog {
                     width: parent.width*2
                     height: parent.width
                     visible: false
-                    background: MyBackgroundRectangle {}
+                    background: CustomBackgroundRectangle {}
                     GridView {
                         width: parent.width
                         height: parent.height
@@ -132,7 +133,7 @@ Dialog {
             ColumnLayout {
                 Image {
                     id: imageDetail
-                    source:  (pathField.text === "") ? "assets/clr_iconPic.png" : "image://imageProvider/dbDetail/" + idField.text + newImage
+                    source:  (pathField.text === "") ? "./../../../assets/clr_iconPic.png" : "image://imageProvider/dbDetail/" + idField.text + newImage
                     cache: false
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
                     Layout.preferredWidth: 100
@@ -158,7 +159,7 @@ Dialog {
                 id: deleteButton
                 Image {
                     anchors.fill: parent
-                    source: "assets/clr_delBttn.png"
+                    source: "./../../../assets/clr_delBttn.png"
                 }
                 radius: rad
                 onClicked: dbDetail.deleteItem()
@@ -169,7 +170,7 @@ Dialog {
                 radius: rad
                 Image {
                     anchors.fill: parent
-                    source: "assets/clr_firstBttn.png"
+                    source: "./../../../assets/clr_firstBttn.png"
                 }
                 onClicked: {
                     myString.push(nameField.text)
@@ -188,7 +189,7 @@ Dialog {
                 radius: rad
                 Image {
                     anchors.fill: parent
-                    source: "assets/clr_prevBttn.png"
+                    source: "./../../../assets/clr_prevBttn.png"
                 }
                 onClicked: {
                     myString.push(nameField.text)
@@ -224,7 +225,7 @@ Dialog {
                 radius: rad
                 Image {
                     anchors.fill: parent
-                    source: "assets/clr_nextBttn.png"
+                    source: "./../../../assets/clr_nextBttn.png"
                 }
                 onClicked: {
                     myString.push(nameField.text)
@@ -243,7 +244,7 @@ Dialog {
                 radius: rad
                 Image {
                     anchors.fill: parent
-                    source: "assets/clr_lastBttn.png"
+                    source: "./../../../assets/clr_lastBttn.png"
                 }
                 onClicked: {
                     myString.push(nameField.text)
@@ -262,7 +263,7 @@ Dialog {
                 radius: rad
                 Image {
                     anchors.fill: parent
-                    source: "assets/clr_addBttn.png"
+                    source: "./../../../assets/clr_addBttn.png"
                 }
                 onClicked: {
                     myString.push(nameField.text)

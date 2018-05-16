@@ -2,6 +2,11 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.1
+import "./CustomizedItems"
+import "./MainLayout/Grid"
+import "./MainLayout/TopPanel/EditDialogs"
+import "./MainLayout/TopPanel/FilterDialogs"
+import "./Service"
 
 ApplicationWindow {
     property bool db_connected: false
@@ -16,7 +21,7 @@ ApplicationWindow {
     width: 1368
     height: 768
     title: qsTr("LEGO Приложение")//("LEGO Storage App")
-    background: MyBackgroundRectangle {}
+    background: CustomBackgroundRectangle {}
 
     //обработка сигналов от приложения
     Connections {
@@ -76,7 +81,7 @@ ApplicationWindow {
 
     //верхнее меню
     header:  ToolBar {
-        background: MyHeaderRectangle {}
+        background: CustomHeaderRectangle {}
         id: filtersToolBar
         height: 75
         Row {
@@ -135,7 +140,7 @@ ApplicationWindow {
                 }
             }
             //Свитч для быстрого выключения фильтра
-            MySwitch {                
+            CustomSwitch {
                 id: catFilterSwitch
                 onCheckedChanged: {
                     if (checked == true) {
@@ -174,7 +179,7 @@ ApplicationWindow {
                 ToolTip.text: qsTr("Фильтр по цвету")//("Colors Filter")
             }
             //Свитч для быстрого выключения фильтра
-            MySwitch {
+            CustomSwitch {
                 width: 75
                 height: 75
                 id: colFilterSwitch
@@ -306,7 +311,7 @@ ApplicationWindow {
                 ToolTip.text: qsTr("Номер столбца")//("Column Number")
             }
             //Свитч для быстрого выключения фильтра
-            MySwitch {
+            CustomSwitch {
                 width: 75
                 height: 75
                 id: placeFilterSwitch
@@ -343,7 +348,7 @@ ApplicationWindow {
                 ToolTip.text: qsTr("Уменьшить размер иконок")//("Smaller size of icons")
             }
             //Слайдер для изменения размера элементов с деталями
-            MySlider {
+            CustomSlider {
                 width: 300
                 height: 75
                 id: sizeSlider
@@ -373,7 +378,7 @@ ApplicationWindow {
     Menu { //Подключение БД
         id: connectionMenu
         title: qsTr("База данных")//"Database"
-        background: MyItemRectangle {implicitHeight: 50; implicitWidth: 120}
+        background: CustomItemRectangle {implicitHeight: 50; implicitWidth: 120}
         MenuItem {
             text: qsTr("Открыть соединение")//"Open connection"
             onTriggered: fileDlg.open()
@@ -393,7 +398,7 @@ ApplicationWindow {
     Menu { //Работа с деталями
         id: editMenu
         title: qsTr("Редактировать...")//"Edit..."
-        background: MyItemRectangle {implicitHeight: 50; implicitWidth: 120}
+        background: CustomItemRectangle {implicitHeight: 50; implicitWidth: 120}
         MenuItem {
             text: qsTr("Детали")//"Detail"
             onTriggered: appCore.openDetailDialog()
@@ -415,7 +420,7 @@ ApplicationWindow {
     //Статус бар. Слева находится вывод отклика последних действий
     //Справа - указатель на БД с кторой работаем
     footer: ToolBar {
-         background: MyHeaderRectangle {}
+         background: CustomHeaderRectangle {}
                 id: mainStatusBar
                 height: statusLabel.height
                 objectName: "myBar"
@@ -442,24 +447,24 @@ ApplicationWindow {
     }
 
     //сетка с деталями, отображаемая при подключении к БД
-    ShowDetails {
+    DetailsGrid {
         id: mainDetails
         visible: db_connected
         iconSize: sizeSlider.value
     }
 
     //диалог для отображения сообщений
-    ShowMessageDialogs {id: messageDialog}
+    MessageDialogs {id: messageDialog}
     //диалоги редактирования БД
-    CategoryEditDialog {id: categoryDialog}
-    ColorEditDialog {id: colorDialog}
-    PlacementEditDialog {id: placementDialog}
-    DetailEditDialog {
+    CategoryDialog {id: categoryDialog}
+    ColourDialog {id: colorDialog}
+    PlacementDialog {id: placementDialog}
+    DetailDialog {
         id: detailDialog
         onClosed: appCore.getDetails()
     }
     //Диалоги фильтров
-    ChooseCategoryFilterDialog {
+    SelectCategoryDialog {
         id: chooseCatFilterDialog
         onClosed: {
             if (chooseCatFilterDialog.chosenFilter != 0)
@@ -469,7 +474,7 @@ ApplicationWindow {
             }
         }        
     }
-    ColorFilterDialog {
+    SelectColourDialog {
         id: colorFilterDlg
         onClosed: {
             if (colorFilterDlg.chosenFilter != 0)
@@ -485,7 +490,7 @@ ApplicationWindow {
         onClosed: mainDetails.pressedID = -1
     }
     //Диалог открытия файла для выбора файла с БД
-    MyFileDialog {
+    CustomFileDialog {
         id: fileDlg
         nameFilters: ["SQLite database (*.s3db)"]
         onAccepted: {

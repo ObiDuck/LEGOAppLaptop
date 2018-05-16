@@ -1,19 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>CategoryEditDialog.qml</file>
-        <file>ColorEditDialog.qml</file>
-        <file>ShowMessageDialogs.qml</file>
-        <file>PlacementEditDialog.qml</file>
-        <file>DetailEditDialog.qml</file>
-        <file>ChooseCategoryFilterDialog.qml</file>
-        <file>MyColorDialog.qml</file>
-        <file>ColorFilterDialog.qml</file>
-        <file>DetailInfoDialog.qml</file>
-        <file>MyFileDialog.qml</file>
-        <file>ChooseDetailDialog.qml</file>
-        <file>ShowDetails.qml</file>
-        <file>MyCountItem.qml</file>
         <file>assets/backgroundPic.png</file>
         <file>assets/clr_addBttn.png</file>
         <file>assets/clr_box.png</file>
@@ -47,11 +34,24 @@
         <file>assets/clr_critical.png</file>
         <file>assets/clr_info.png</file>
         <file>assets/clr_question.png</file>
-        <file>MyItemRectangle.qml</file>
-        <file>MyHeaderRectangle.qml</file>
-        <file>MyBackgroundRectangle.qml</file>
-        <file>MySwitch.qml</file>
-        <file>MySlider.qml</file>
-        <file>MyLabel.qml</file>
+        <file>Service/MessageDialogs.qml</file>
+        <file>MainLayout/TopPanel/EditDialogs/CategoryDialog.qml</file>
+        <file>MainLayout/TopPanel/EditDialogs/ColourDialog.qml</file>
+        <file>MainLayout/TopPanel/EditDialogs/PlacementDialog.qml</file>
+        <file>CustomizedItems/CustomBackgroundRectangle.qml</file>
+        <file>CustomizedItems/CustomColorDialog.qml</file>
+        <file>CustomizedItems/CustomCountItem.qml</file>
+        <file>CustomizedItems/CustomFileDialog.qml</file>
+        <file>CustomizedItems/CustomHeaderRectangle.qml</file>
+        <file>CustomizedItems/CustomItemRectangle.qml</file>
+        <file>CustomizedItems/CustomLabel.qml</file>
+        <file>CustomizedItems/CustomSlider.qml</file>
+        <file>CustomizedItems/CustomSwitch.qml</file>
+        <file>MainLayout/Grid/DetailInfoDialog.qml</file>
+        <file>MainLayout/Grid/DetailsGrid.qml</file>
+        <file>MainLayout/TopPanel/FilterDialogs/SelectCategoryDialog.qml</file>
+        <file>MainLayout/TopPanel/FilterDialogs/SelectColourDialog.qml</file>
+        <file>MainLayout/TopPanel/FilterDialogs/SelectDetailDialog.qml</file>
+        <file>MainLayout/TopPanel/EditDialogs/DetailDialog.qml</file>
     </qresource>
 </RCC>

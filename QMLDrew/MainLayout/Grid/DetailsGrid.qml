@@ -3,11 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.1
 
-//ScrollView {
-
-
 GridView {
-
 property int chosenID
 property int coorX: 0
 property int coorY: 0

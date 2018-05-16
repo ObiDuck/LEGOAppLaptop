@@ -1,11 +1,11 @@
 import QtQuick 2.8
 //мой элемент для отображения количества деталей
-MyItemRectangle {
+CustomItemRectangle {
     property int percentCount: 0
     id: backgroundRect
     width: 50
     height: 50
-    MyItemRectangle {
+    CustomItemRectangle {
         id: countRect
         anchors.bottom: parent.bottom
         anchors.bottomMargin: parent.border.width

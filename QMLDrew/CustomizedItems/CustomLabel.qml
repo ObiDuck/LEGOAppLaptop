@@ -7,7 +7,7 @@ Label {
     verticalAlignment: Text.AlignVCenter
     Layout.fillHeight: true
     Layout.fillWidth: true
-    background: MyItemRectangle {
+    background: CustomItemRectangle {
           Layout.fillHeight: true
           Layout.fillWidth: true
     }

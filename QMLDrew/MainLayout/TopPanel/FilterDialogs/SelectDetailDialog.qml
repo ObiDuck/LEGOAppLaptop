@@ -2,6 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.1
+import "./../../../CustomizedItems"
 
 Dialog {
     //диалог с деталями
@@ -27,7 +28,7 @@ Dialog {
     enter: Transition {
               NumberAnimation { property: "opacity"; from: 0.0; to: 1.0 }
           }
-    background: MyBackgroundRectangle {}
+    background: CustomBackgroundRectangle {}
    /// RowLayout {
         GridView {//сетка с иконками деталей
             x: 0

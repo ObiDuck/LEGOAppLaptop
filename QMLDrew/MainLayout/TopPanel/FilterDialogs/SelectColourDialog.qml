@@ -2,49 +2,55 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.1
+import "./../../../CustomizedItems"
 
 Dialog {
-    //диалог выбора фильтра подкатегории
+    //диалог выбора фильтра цвета
     property int margin: 11
     property int rad: 30
-    property int chosenFilter: 0 //переменная хранения выбранного фильтра
+    property int chosenFilter: 0
 
-    background: MyBackgroundRectangle {}
-    width: 740
-    height: 430
+    background: CustomBackgroundRectangle {}
+    width: 940
+    height: 550
     modal: true
     leftMargin: (parent.width - width)/2
     topMargin: (parent.height - height)/2
-
     enter: Transition {
               NumberAnimation { property: "opacity"; from: 0.0; to: 1.0 }
           }
 
-    GridView {//сетка выводимых иконок фильтров
+    GridView {
         width: parent.width
         height: parent.height
-        model: catModel
         clip: true
+        model: colorFilterModel
         cellHeight: 100
         cellWidth: 100
-        delegate: Rectangle {//фоновый прямоугольник
+        delegate: Rectangle {
+            id: labelRoot
             width: 100
             height: 100
             color: "lightgrey"
-            border.color: area.containsMouse ? "#0000ff" : "#786ea0" //реагирование цветов на наведение мыши
+            border.color: area.containsMouse ? "#0000ff" : "#786ea0"
             border.width: area.containsMouse ? 3 : 1
             radius: area.containsMouse ? 8 : 0
-            Rectangle {//прямоугольник с изображением
+            Rectangle {
                  id: rect2
                  x: parent.border.width
                  y: parent.border.width
                  width: parent.width - x*2; height: parent.height - y*2
-                 Image {
-                     fillMode: Image.PreserveAspectCrop
-                     anchors.centerIn: parent
-                     source: "image://imageProvider/dbSubCategory/" + display
+                 Rectangle {
                      width: parent.width
                      height: parent.height
+                     color: display
+                     Layout.fillWidth: true
+                     Text {
+                         text: dbColor.getFamilyColor(index)
+                         anchors.centerIn: parent
+                         font.pointSize: 48
+                         fontSizeMode: Text.Fit
+                     }
                  }
                  MouseArea {
                      id: area
@@ -52,8 +58,7 @@ Dialog {
                      height: parent.height
                      hoverEnabled: true
                      onClicked: {
-                         //сохраняем индекс выбранного итема и закрываем окно
-                         chosenFilter = display
+                         chosenFilter = index + 1
                          close()
                      }
                  }
@@ -61,3 +66,4 @@ Dialog {
          }
     }
 }
+

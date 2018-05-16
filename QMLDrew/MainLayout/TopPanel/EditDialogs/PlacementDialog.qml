@@ -2,6 +2,8 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.1
+import "./../../../CustomizedItems"
+import "./../FilterDialogs"
 
 Dialog {
     property int margin: 11
@@ -9,7 +11,7 @@ Dialog {
     property variant myString: []
     property int colorID
     property string quantText: ""
-    background: MyBackgroundRectangle {}
+    background: CustomBackgroundRectangle {}
 
     width: mainLayout.implicitWidth + 2 * margin
     height: mainLayout.implicitHeight*1.2 + 2 * margin
@@ -61,7 +63,7 @@ Dialog {
         }
     }
 
-    ChooseDetailDialog {
+    SelectDetailDialog {
         id: pickDetailDlg
         onClosed: idDetail.text = dbDetail4Placement.getID(pickDetailDlg.chosenID)
     }
@@ -71,7 +73,7 @@ Dialog {
         RowLayout {
             ColumnLayout {
                 RowLayout {
-                    MyLabel {text: "Цвет"}//"Color:"}
+                    CustomLabel {text: "Цвет"}//"Color:"}
                     Rectangle {
                         id: mainColor
                         width: 100
@@ -88,7 +90,7 @@ Dialog {
                             width: parent.width
                             height: parent.width
                             visible: false
-                            background: MyBackgroundRectangle {}
+                            background: CustomBackgroundRectangle {}
                             GridView {
                                 width: parent.width
                                 height: parent.height
@@ -135,13 +137,13 @@ Dialog {
 
                 GridLayout {
                     columns: 4
-                    MyLabel {text: "Кассетница"}//"Box"}
-                    MyLabel {text: "Ряд"}//"Row"}
-                    MyLabel {id: clmnLabel; text: "Столбец"}//"Clmn"}
-                    MyLabel {text: "Количество деталей"}//"Quantity of details"}
+                    CustomLabel {text: "Кассетница"}//"Box"}
+                    CustomLabel {text: "Ряд"}//"Row"}
+                    CustomLabel {id: clmnLabel; text: "Столбец"}//"Clmn"}
+                    CustomLabel {text: "Количество деталей"}//"Quantity of details"}
                     Tumbler {
                         id: boxTumbler
-                        background: MyBackgroundRectangle {}
+                        background: CustomBackgroundRectangle {}
                         Layout.preferredWidth: clmnLabel.width
                         Layout.preferredHeight: clmnLabel.height*6
                         model: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
@@ -158,7 +160,7 @@ Dialog {
                     }
                     Tumbler {
                         id: rowTumbler
-                        background: MyBackgroundRectangle {}
+                        background: CustomBackgroundRectangle {}
                         Layout.preferredWidth: clmnLabel.width
                         Layout.preferredHeight: clmnLabel.height*6
                         model: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
@@ -175,7 +177,7 @@ Dialog {
                     }
                     Tumbler {
                         id: columnTumbler
-                        background: MyBackgroundRectangle {}
+                        background: CustomBackgroundRectangle {}
                         Layout.preferredWidth: clmnLabel.width
                         Layout.preferredHeight: clmnLabel.height*6
                         model: ["1", "2", "3", "4", "5"]
@@ -190,7 +192,7 @@ Dialog {
                             }
                         }*/
                     }
-                    MySlider {
+                    CustomSlider {
                         id: countSlider
                         snapMode: Slider.SnapAlways
                         from: 0.0
@@ -203,7 +205,7 @@ Dialog {
                         id: deleteButton
                         Image {
                             anchors.fill: parent
-                            source: "assets/clr_delBttn.png"
+                            source: "./../../../assets/clr_delBttn.png"
                         }
                         radius: rad
                         onClicked: dbPlacement.deleteItem()
@@ -214,7 +216,7 @@ Dialog {
                         radius: rad
                         Image {
                             anchors.fill: parent
-                            source: "assets/clr_firstBttn.png"
+                            source: "./../../../assets/clr_firstBttn.png"
                         }
                         onClicked: {
                             myString.push(idDetail.text)
@@ -239,7 +241,7 @@ Dialog {
                         radius: rad
                         Image {
                             anchors.fill: parent
-                            source: "assets/clr_prevBttn.png"
+                            source: "./../../../assets/clr_prevBttn.png"
                         }
                         onClicked: {
                             myString.push(idDetail.text)
@@ -287,7 +289,7 @@ Dialog {
                         radius: rad
                         Image {
                             anchors.fill: parent
-                            source: "assets/clr_nextBttn.png"
+                            source: "./../../../assets/clr_nextBttn.png"
                         }
                         onClicked: {
                             myString.push(idDetail.text)
@@ -312,7 +314,7 @@ Dialog {
                         radius: rad
                         Image {
                             anchors.fill: parent
-                            source: "assets/clr_lastBttn.png"
+                            source: "./../../../assets/clr_lastBttn.png"
                         }
                         onClicked: {
                             myString.push(idDetail.text)
@@ -337,7 +339,7 @@ Dialog {
                         radius: rad
                         Image {
                             anchors.fill: parent
-                            source: "assets/clr_addBttn.png"
+                            source: "./../../../assets/clr_addBttn.png"
                         }
                         onClicked: {
                             myString.push(idDetail.text)

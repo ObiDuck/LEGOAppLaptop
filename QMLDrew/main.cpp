@@ -20,7 +20,8 @@ int main(int argc, char *argv[])
     DataBaseImageProvider* imgProv = new DataBaseImageProvider;
     imgProv->setCore(&appCore);
     engine->addImageProvider(QLatin1String("imageProvider"), imgProv);
-    engine->load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine->load(QUrl(QStringLiteral("qrc:///main.qml")));
+    engine->addImportPath("qrc:/");
     context->setContextProperty("appCore", &appCore);
 
     return app.exec();
