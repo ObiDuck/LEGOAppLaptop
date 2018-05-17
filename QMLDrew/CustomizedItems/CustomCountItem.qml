@@ -6,24 +6,43 @@ CustomItemRectangle {
     width: 50
     height: 50
     CustomItemRectangle {
-        id: countRect
+        id: redRect
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: parent.border.width
         anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width - parent.border.width*2
-        height: percentCount*(parent.height - parent.border.width*2)/5
-        color: switch (percentCount)
-               {
-               case 0: "lightgrey"; break
-               case 1: "red"; break
-               case 2: "orange"; break
-               case 3: "yellow"; break
-               case 4: "lightgreen"; break
-               case 5: "green"; break
-               }
+        width: parent.width
+        height: parent.height/5
+        color: (percentCount > 0) ? "red" : "lightgrey"
+    }
+    CustomItemRectangle {
+        id: orangeRect
+        anchors.bottom: redRect.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width
+        height: parent.height/5
+        color: (percentCount > 1) ? "orange" : "lightgrey"
+    }
+    CustomItemRectangle {
+        id: yellowRect
+        anchors.bottom: orangeRect.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width
+        height: parent.height/5
+        color: (percentCount > 2) ? "yellow" : "lightgrey"
+    }
+    CustomItemRectangle {
+        id: lightGreenRect
+        anchors.bottom: yellowRect.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width
+        height: parent.height/5
+        color: (percentCount > 3) ? "lightgreen" : "lightgrey"
+    }
+    CustomItemRectangle {
+        id: greenRect
+        anchors.bottom: lightGreenRect.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width
+        height: parent.height/5
+        color: (percentCount > 4) ? "green" : "lightgrey"
     }
 }
-
-
-
-
