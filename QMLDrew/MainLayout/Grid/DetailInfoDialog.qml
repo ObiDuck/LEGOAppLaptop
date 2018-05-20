@@ -7,9 +7,9 @@ import "./../../CustomizedItems"
 Dialog {
     property int margin: 11
     property int rad: 30
-    property int sizeOfItems: 35*2
-    height: 200*2
-    width: 245*2
+    property int sizeOfItems: 70
+    height: 400
+    width: 490
 
     background: CustomBackgroundRectangle {}
     header: CustomHeaderRectangle {
@@ -17,7 +17,7 @@ Dialog {
         height: sizeOfItems+4
         CustomItemRectangle {
             anchors.left: parent.left
-            anchors.leftMargin: (sizeOfItems*7 - sizeOfItems*6 - 2*6)/2
+            anchors.leftMargin: (sizeOfItems - 12)/2
             anchors.top: parent.top
             anchors.topMargin: 2
             id: boxLabelRect
@@ -99,7 +99,8 @@ Dialog {
                 source: "./../../assets/clr_iconEdit.png"
             }
         }
-    }
+    }//header>
+    //TODO: add image
     Text {
         text: "Деталь ещё не расположена"//"Detail not placed yet"
         visible: (lstVw.count == 0)
@@ -191,5 +192,33 @@ Dialog {
                 }
             }
         }
+    }//mainList>
+
+    footer: CustomHeaderRectangle {
+        width: parent.width
+        height: sizeOfItems+4
+        CustomItemRectangle {
+            anchors.left: parent.left
+            anchors.leftMargin: (sizeOfItems - 12)/2
+            anchors.top: parent.top
+            anchors.topMargin: 2
+            id: addNewDetail
+            width: sizeOfItems
+            height: sizeOfItems
+            Image {
+                fillMode: Image.PreserveAspectFit
+                anchors.fill: parent
+                source: "./../../assets/clr_addBttn.png"
+            }
+            /*MouseArea {
+                width: parent.width
+                height: parent.height
+                onClicked: {
+                    appCore.openPlacementDialog(idindex)
+                    close()
+                }
+            }*/
+        }
     }
+
 }

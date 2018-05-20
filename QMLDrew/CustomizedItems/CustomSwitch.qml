@@ -8,7 +8,7 @@ Switch {
           implicitWidth: 48
           implicitHeight: 13
           x: control.leftPadding
-          y: parent.height / 2// - height / 2
+          y: parent.height / 2
           radius: 13
           color: control.checked ? "#00007f" : "#ced8ed"
           border.color: control.checked ? "#786ea0" : "#786ea0"
