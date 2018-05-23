@@ -27,14 +27,14 @@ Dialog {
         myString.push(nameField.text)
         //индекс категории
         myString.push(categoryBox.currentIndex+1)
-        dbSubCategory.saveChanges(myString)
+        appExchangeSubCategoryEdit.saveChanges(myString)
         myString.pop()
         myString.pop()
         newImage = ""
     }
     //обработка сигналов
     Connections {
-        target: dbSubCategory
+        target: appExchangeSubCategoryEdit
         onSendData: {
             //порядковый номер подкатегории
             idField.text = array[0]
@@ -60,7 +60,7 @@ Dialog {
         {
             newImage = "temp" + iconDlg.file
             pathField.text = "loaded"
-            dbSubCategory.setIcon(iconDlg.file)//передаем полученный адрес базы
+            appExchangeSubCategoryEdit.setIcon(iconDlg.file)//передаем полученный адрес базы
         }
     }
 
@@ -108,7 +108,7 @@ Dialog {
                         source: "./../../../assets/clr_delBttn.png"
                     }
                     radius: rad
-                    onClicked: dbSubCategory.deleteItem()
+                    onClicked: appExchangeSubCategoryEdit.deleteItem()
                 }
 
                 RoundButton {
@@ -121,11 +121,11 @@ Dialog {
                     onClicked: {
                         myString.push(nameField.text)
                         myString.push(categoryBox.currentIndex+1)
-                        dbSubCategory.saveChanges(myString)
+                        appExchangeSubCategoryEdit.saveChanges(myString)
                         myString.pop()
                         myString.pop()
                         newImage = ""
-                        dbSubCategory.firstItem()
+                        appExchangeSubCategoryEdit.firstItem()
                     }
                 }
 
@@ -139,11 +139,11 @@ Dialog {
                     onClicked: {
                         myString.push(nameField.text)
                         myString.push(categoryBox.currentIndex+1)
-                        dbSubCategory.saveChanges(myString)
+                        appExchangeSubCategoryEdit.saveChanges(myString)
                         myString.pop()
                         myString.pop()
                         newImage = ""
-                        dbSubCategory.prevItem()
+                        appExchangeSubCategoryEdit.prevItem()
                     }
                 }
 
@@ -155,11 +155,11 @@ Dialog {
                     onEditingFinished: {
                         myString.push(nameField.text)
                         myString.push(categoryBox.currentIndex+1)
-                        dbSubCategory.saveChanges(myString)
+                        appExchangeSubCategoryEdit.saveChanges(myString)
                         myString.pop()
                         myString.pop()
                         newImage = ""
-                        dbSubCategory.jumpItem(text)
+                        appExchangeSubCategoryEdit.jumpItem(text)
                     }
                 }
 
@@ -173,11 +173,11 @@ Dialog {
                     onClicked: {
                         myString.push(nameField.text)
                         myString.push(categoryBox.currentIndex+1)
-                        dbSubCategory.saveChanges(myString)
+                        appExchangeSubCategoryEdit.saveChanges(myString)
                         myString.pop()
                         myString.pop()
                         newImage = ""
-                        dbSubCategory.nextItem()
+                        appExchangeSubCategoryEdit.nextItem()
                     }
                 }
 
@@ -191,11 +191,11 @@ Dialog {
                     onClicked: {
                         myString.push(nameField.text)
                         myString.push(categoryBox.currentIndex+1)
-                        dbSubCategory.saveChanges(myString)
+                        appExchangeSubCategoryEdit.saveChanges(myString)
                         myString.pop()
                         myString.pop()
                         newImage = ""
-                        dbSubCategory.lastItem()
+                        appExchangeSubCategoryEdit.lastItem()
                     }
                 }
 
@@ -209,11 +209,11 @@ Dialog {
                     onClicked: {
                         myString.push(nameField.text)
                         myString.push(categoryBox.currentIndex+1)
-                        dbSubCategory.saveChanges(myString)
+                        appExchangeSubCategoryEdit.saveChanges(myString)
                         myString.pop()
                         myString.pop()
                         newImage = ""
-                        dbSubCategory.addItem()
+                        appExchangeSubCategoryEdit.addItem()
                     }
                 }
             }

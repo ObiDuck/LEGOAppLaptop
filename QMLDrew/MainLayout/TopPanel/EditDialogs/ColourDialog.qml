@@ -24,14 +24,14 @@ Dialog {
         myString.push(nameField.text)
         myString.push(familyBox.currentIndex+1)
         myString.push(colorDlg.color)
-        dbColor.saveChanges(myString)
+        appExchangeColourEdit.saveChanges(myString)
         myString.pop()
         myString.pop()
         myString.pop()
     }
 
     Connections {
-        target: dbColor
+        target: appExchangeColourEdit
         onSendData: {
             idField.text = array[0]
             nameField.text = array[1]
@@ -92,7 +92,7 @@ Dialog {
                     source: "./../../../assets/clr_delBttn.png"
                 }
                 radius: rad
-                onClicked: dbColor.deleteItem()
+                onClicked: appExchangeColourEdit.deleteItem()
             }
 
             RoundButton {
@@ -106,11 +106,11 @@ Dialog {
                     myString.push(nameField.text)
                     myString.push(familyBox.currentIndex+1)
                     myString.push(colorDlg.color)
-                    dbColor.saveChanges(myString)
+                    appExchangeColourEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
                     myString.pop()
-                    dbColor.firstItem()
+                    appExchangeColourEdit.firstItem()
                 }
             }
 
@@ -125,11 +125,11 @@ Dialog {
                     myString.push(nameField.text)
                     myString.push(familyBox.currentIndex+1)
                     myString.push(colorDlg.color)
-                    dbColor.saveChanges(myString)
+                    appExchangeColourEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
                     myString.pop()
-                    dbColor.prevItem()
+                    appExchangeColourEdit.prevItem()
                 }
             }
 
@@ -142,11 +142,11 @@ Dialog {
                     myString.push(nameField.text)
                     myString.push(familyBox.currentIndex+1)
                     myString.push(colorDlg.color)
-                    dbColor.saveChanges(myString)
+                    appExchangeColourEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
                     myString.pop()
-                    dbColor.jumpItem(text)
+                    appExchangeColourEdit.jumpItem(text)
                 }
             }
 
@@ -161,11 +161,11 @@ Dialog {
                     myString.push(nameField.text)
                     myString.push(familyBox.currentIndex+1)
                     myString.push(colorDlg.color)
-                    dbColor.saveChanges(myString)
+                    appExchangeColourEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
                     myString.pop()
-                    dbColor.nextItem()
+                    appExchangeColourEdit.nextItem()
                 }
             }
 
@@ -180,11 +180,11 @@ Dialog {
                     myString.push(nameField.text)
                     myString.push(familyBox.currentIndex+1)
                     myString.push(colorDlg.color)
-                    dbColor.saveChanges(myString)
+                    appExchangeColourEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
                     myString.pop()
-                    dbColor.lastItem()
+                    appExchangeColourEdit.lastItem()
                 }
             }
 
@@ -199,11 +199,11 @@ Dialog {
                     myString.push(nameField.text)
                     myString.push(familyBox.currentIndex+1)
                     myString.push(colorDlg.color)
-                    dbColor.saveChanges(myString)
+                    appExchangeColourEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
                     myString.pop()
-                    dbColor.addItem()
+                    appExchangeColourEdit.addItem()
                 }
             }
         }

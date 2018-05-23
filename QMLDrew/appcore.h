@@ -33,15 +33,15 @@ private:
     QSqlDatabase m_dbLEGO;
 public:
     explicit Appcore(QObject *parent = 0);
-    DBExchange m_Category;
-    DBExchange m_Color;
-    DBExchange m_ColorFamily;
-    DBExchange m_Detail;
+    DBExchange categoryEditExchange;
+    DBExchange colourEditExchange;
+    DBExchange colourFamilyEditExchange;
+    DBExchange detailEditExchange;
     DBExchange m_Orientation;
-    DBExchange m_Placement;
-    DBExchange m_SubCategory;
-    DBExchange m_Detail2Show;
-    DBExchange m_Detail4Placement;
+    DBExchange placementEditExchange;
+    DBExchange subCategoryEditExchange;
+    DBExchange detailGridExchange;
+    DBExchange detailInPlacementEditExchange;
     ~Appcore();
     void setEngine(QQmlApplicationEngine *engine);
     void initDBExchange();

@@ -38,7 +38,7 @@ QPixmap DataBaseImageProvider::requestPixmap(const QString &id, QSize *size, con
     {
         int picID;
         picID = id.section('/', 1).toInt();
-        str = m_core->m_SubCategory.getIcon(picID);
+        str = m_core->subCategoryEditExchange.getIcon(picID);
         pmap.loadFromData(str);
         return pmap;
     }
@@ -47,7 +47,7 @@ QPixmap DataBaseImageProvider::requestPixmap(const QString &id, QSize *size, con
     {
         int picID;
         picID = id.section('/', 1).toInt();
-        str = m_core->m_Detail.getIcon(picID);
+        str = m_core->detailEditExchange.getIcon(picID);
         pmap.loadFromData(str);
         return pmap;
     }
@@ -55,7 +55,7 @@ QPixmap DataBaseImageProvider::requestPixmap(const QString &id, QSize *size, con
     {
         int picID;
         picID = id.section('/', 1).toInt();
-        str = m_core->m_Detail2Show.getIcon(picID);
+        str = m_core->detailGridExchange.getIcon(picID);
         pmap.loadFromData(str);
         return pmap;
     }
@@ -63,7 +63,7 @@ QPixmap DataBaseImageProvider::requestPixmap(const QString &id, QSize *size, con
     {
         int picID;
         picID = id.section('/', 1).toInt();
-        str = m_core->m_Detail4Placement.getIcon(picID);
+        str = m_core->detailInPlacementEditExchange.getIcon(picID);
         pmap.loadFromData(str);
         return pmap;
     }
@@ -144,22 +144,22 @@ void Appcore::initDBExchange()
     QStringList tableItems;
 
     tableItems.append("Name");
-    m_Category.setTable("Category", tableItems);
-    m_ColorFamily.setTable("ColorFamily", tableItems);
+    categoryEditExchange.setTable("Category", tableItems);
+    colourFamilyEditExchange.setTable("ColorFamily", tableItems);
     tableItems.clear();
 
     tableItems.append("Name");
     tableItems.append("Family");
     tableItems.append("ColorValue");
-    m_Color.setTable("Color", tableItems);
+    colourEditExchange.setTable("Color", tableItems);
     tableItems.clear();
 
     tableItems.append("Name");
     tableItems.append("SubCategory");
     tableItems.append("Picture");
-    m_Detail.setTable("Detail", tableItems);
-    m_Detail4Placement.setTable("Detail", tableItems);
-    m_Detail2Show.setTable("Detail", tableItems);
+    detailEditExchange.setTable("Detail", tableItems);
+    detailInPlacementEditExchange.setTable("Detail", tableItems);
+    detailGridExchange.setTable("Detail", tableItems);
     tableItems.clear();
 
     tableItems.append("Detail");
@@ -168,39 +168,37 @@ void Appcore::initDBExchange()
     tableItems.append("BoxIndex");
     tableItems.append("RowIndex");
     tableItems.append("ColumnIndex");
-    m_Placement.setTable("Placement", tableItems);
+    placementEditExchange.setTable("Placement", tableItems);
     tableItems.clear();
 
     tableItems.append("Name");
     tableItems.append("Category");
     tableItems.append("Picture");
-    m_SubCategory.setTable("SubCategory", tableItems);
+    subCategoryEditExchange.setTable("SubCategory", tableItems);
     tableItems.clear();
 }
 
 void Appcore::setContext()
 {
-    m_Context->setContextProperty("dbCategory", &m_Category);
-    m_Context->setContextProperty("dbSubCategory", &m_SubCategory);
-    m_Context->setContextProperty("dbColorFamily", &m_ColorFamily);
-    m_Context->setContextProperty("dbColor", &m_Color);
-    m_Context->setContextProperty("dbDetail", &m_Detail);
-    m_Context->setContextProperty("dbPlacement", &m_Placement);
-    m_Context->setContextProperty("dbDetail2Show", &m_Detail2Show);
-    m_Context->setContextProperty("dbDetail4Placement", &m_Detail4Placement);
+    m_Context->setContextProperty("appExchangeCategoryEdit", &categoryEditExchange);
+    m_Context->setContextProperty("appExchangeSubCategoryEdit", &subCategoryEditExchange);
+    m_Context->setContextProperty("appExchangeColourFamilyEdit", &colourFamilyEditExchange);
+    m_Context->setContextProperty("appExchangeColourEdit", &colourEditExchange);
+    m_Context->setContextProperty("appExchangeDetailEdit", &detailEditExchange);
+    m_Context->setContextProperty("appExchangePlacementEdit", &placementEditExchange);
+    m_Context->setContextProperty("appExchangeDetailGrid", &detailGridExchange);
+    m_Context->setContextProperty("appExchangeDetailInPlacementEdit", &detailInPlacementEditExchange);
 }
 
 void Appcore::openSubCategoryDialog()
 {
     if (m_dbLEGO.isOpen())
     {
-    //заполнение комбобокса для названий категорий
-        QStringList list;
-        list = m_Category.getName();
-        m_CategoryModel.setStringList(list);
+        QStringList categoryList;
+        categoryList = categoryEditExchange.getName();
+        m_CategoryModel.setStringList(categoryList);
         m_Context->setContextProperty("categoryModel", &m_CategoryModel);
-        //получение данных для остальных элементов
-        m_SubCategory.getData();
+        subCategoryEditExchange.getData();
     }
 
     emit showSubCategoryDialog();
@@ -212,11 +210,11 @@ void Appcore::openColorDialog()
     {
         //заполнение комбобокса
         QStringList list;
-        list = m_ColorFamily.getName();
+        list = colourFamilyEditExchange.getName();
         m_ColorFamilyModel.setStringList(list);
         m_Context->setContextProperty("colorFamilyModel", &m_ColorFamilyModel);
         //получение остальных данных для формы
-        m_Color.getData();
+        colourEditExchange.getData();
     }
 
     emit showColorDialog();
@@ -227,11 +225,11 @@ void Appcore::openDetailDialog()
     if (m_dbLEGO.isOpen())
     {
         QStringList list;
-        for (int i = 1; i <= m_SubCategory.getCount(); i++)
+        for (int i = 1; i <= subCategoryEditExchange.getCount(); i++)
             list.append(QString("%1").arg(i));
         m_ShowSubCatModel.setStringList(list);
         m_Context->setContextProperty("subCatModel", &m_ShowSubCatModel);
-        m_Detail.getData();
+        detailEditExchange.getData();
     }
 
     emit showDetailDialog();
@@ -242,14 +240,14 @@ void Appcore::openPlacementDialog(int index)
     if (m_dbLEGO.isOpen())
     {
         QStringList list;
-        for (int i = 1; i <= m_Color.getCount(); i++)
-            list.append(m_Color.getColor(i));
+        for (int i = 1; i <= colourEditExchange.getCount(); i++)
+            list.append(colourEditExchange.getColor(i));
         m_ShowColorModel.setStringList(list);
         m_Context->setContextProperty("colorModel", &m_ShowColorModel);
         if (index == 0)
-            m_Placement.getData();
+            placementEditExchange.getData();
         else
-            m_Placement.jumpItem(index);
+            placementEditExchange.jumpItem(index);
     }
 
     emit showPlacementDialog();
@@ -260,16 +258,16 @@ void Appcore::openChooseDetailDialog(int catFilter) //Выбор детали в
     int categoryFilter;
     if (m_dbLEGO.isOpen())
     {     
-        categoryFilter = m_SubCategory.getID(catFilter);
-        m_Detail4Placement.applyFilter(categoryFilter, 0, "0/0/0");
+        categoryFilter = subCategoryEditExchange.getID(catFilter);
+        detailInPlacementEditExchange.applyFilter(categoryFilter, 0, "0/0/0");
         QStringList list;
-        for (int i = 1; i <= m_Detail4Placement.getCount(); i++)
+        for (int i = 1; i <= detailInPlacementEditExchange.getCount(); i++)
             list.append(QString("%1").arg(i));
         m_DetailModel.setStringList(list);
         m_Context->setContextProperty("detailModel", &m_DetailModel);
 
         QStringList list1;
-        for (int i = 1; i <= m_SubCategory.getCount(); i++)
+        for (int i = 1; i <= subCategoryEditExchange.getCount(); i++)
             list1.append(QString("%1").arg(i));
         m_CategoryFilterInDetail.setStringList(list1);
         m_Context->setContextProperty("addCatFilterModel", &m_CategoryFilterInDetail);
@@ -300,7 +298,7 @@ void Appcore::openChooseCatFilterDialog()
     if (m_dbLEGO.isOpen())
     {
         QStringList list;
-        for (int i = 1; i <= m_SubCategory.getCount(); i++)
+        for (int i = 1; i <= subCategoryEditExchange.getCount(); i++)
             list.append(QString("%1").arg(i));
         m_ChooseCatModel.setStringList(list);
         m_Context->setContextProperty("catModel", &m_ChooseCatModel);
@@ -315,10 +313,10 @@ void Appcore::openChooseColorFilterDialog()
     {
         QStringList list, list1;
         QString temp;
-        for (int i = 1; i <= m_Color.getCount(); i++)
+        for (int i = 1; i <= colourEditExchange.getCount(); i++)
         {
-            list.append(m_Color.getColor(i));
-           /* temp = m_Color.getFamilyColor(i);
+            list.append(colourEditExchange.getColor(i));
+           /* temp = colourTable.getFamilyColor(i);
             switch (temp) {
                 case "1": temp = "T"; break;
                 case "2": temp = "M"; break;
@@ -327,9 +325,7 @@ void Appcore::openChooseColorFilterDialog()
             list1.append(temp);*/
         }
         m_ChooseColorModel.setStringList(list);
-        //m_ColorFamilyModel2Choose.setStringList(list1);
         m_Context->setContextProperty("colorFilterModel", &m_ChooseColorModel);
-       // m_Context->setContextProperty("colorFamilyFilterModel", &m_ColorFamilyModel2Choose);
     }
 
     emit showChooseColorFilterDialog();
@@ -340,11 +336,11 @@ void Appcore::getDetails(int catFilter, int colorFilter, QString placeFilter)
     if (m_dbLEGO.isOpen())
     {
         int categoryFilter, colFilter;
-        categoryFilter = m_SubCategory.getID(catFilter);
-        colFilter = m_Color.getID(colorFilter);
-        m_Detail2Show.applyFilter(categoryFilter, colFilter, placeFilter);
+        categoryFilter = subCategoryEditExchange.getID(catFilter);
+        colFilter = colourEditExchange.getID(colorFilter);
+        detailGridExchange.applyFilter(categoryFilter, colFilter, placeFilter);
         QStringList list;
-        for (int i = 1; i <= m_Detail2Show.getCount(); i++)
+        for (int i = 1; i <= detailGridExchange.getCount(); i++)
             list.append(QString("%1").arg(i));
         m_ShowDetailsModel.setStringList(list);
         m_Context->setContextProperty("showDetailsModel", &m_ShowDetailsModel);
@@ -361,7 +357,7 @@ void Appcore::openDetailInfo(int detailID)
 {
     QList<QStringList> listData;
     m_DetailInfoModel.removeData();
-    listData = m_Detail2Show.getInfo(detailID);
+    listData = detailGridExchange.getInfo(detailID);
     for (int i = 0; i < listData.size(); i++)
     {
         m_DetailInfoModel.addData(listData.at(i));

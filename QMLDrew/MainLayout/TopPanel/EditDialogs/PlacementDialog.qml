@@ -28,7 +28,7 @@ Dialog {
         myString.push(boxTumbler.currentIndex + 1)
         myString.push(rowTumbler.currentIndex + 1)
         myString.push(columnTumbler.currentIndex + 1)
-        dbPlacement.saveChanges(myString)
+        appExchangePlacementEdit.saveChanges(myString)
         myString.pop()
         myString.pop()
         myString.pop()
@@ -38,12 +38,12 @@ Dialog {
     }
 
     Connections {
-        target: dbPlacement
+        target: appExchangePlacementEdit
         onSendData: {
             idField.text = array[0]
             idDetail.text = array[1]
             colorID = array[2]
-            mainColor.color = dbPlacement.getColor(array[2])
+            mainColor.color = appExchangePlacementEdit.getColor(array[2])
             countSlider.value = array[3]
             boxTumbler.currentIndex = array[4] - 1
             rowTumbler.currentIndex = array[5] - 1
@@ -208,7 +208,7 @@ Dialog {
                             source: "./../../../assets/clr_delBttn.png"
                         }
                         radius: rad
-                        onClicked: dbPlacement.deleteItem()
+                        onClicked: appExchangePlacementEdit.deleteItem()
                     }
 
                     RoundButton {
@@ -225,14 +225,14 @@ Dialog {
                             myString.push(boxTumbler.currentIndex + 1)
                             myString.push(rowTumbler.currentIndex + 1)
                             myString.push(columnTumbler.currentIndex + 1)
-                            dbPlacement.saveChanges(myString)
+                            appExchangePlacementEdit.saveChanges(myString)
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
-                            dbPlacement.firstItem()
+                            appExchangePlacementEdit.firstItem()
                         }
                     }
 
@@ -250,14 +250,14 @@ Dialog {
                             myString.push(boxTumbler.currentIndex + 1)
                             myString.push(rowTumbler.currentIndex + 1)
                             myString.push(columnTumbler.currentIndex + 1)
-                            dbPlacement.saveChanges(myString)
+                            appExchangePlacementEdit.saveChanges(myString)
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
-                            dbPlacement.prevItem()
+                            appExchangePlacementEdit.prevItem()
                         }
                     }
 
@@ -273,14 +273,14 @@ Dialog {
                             myString.push(boxTumbler.currentIndex + 1)
                             myString.push(rowTumbler.currentIndex + 1)
                             myString.push(columnTumbler.currentIndex + 1)
-                            dbPlacement.saveChanges(myString)
+                            appExchangePlacementEdit.saveChanges(myString)
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
-                            dbPlacement.jumpItem(text)
+                            appExchangePlacementEdit.jumpItem(text)
                         }
                     }
 
@@ -298,14 +298,14 @@ Dialog {
                             myString.push(boxTumbler.currentIndex + 1)
                             myString.push(rowTumbler.currentIndex + 1)
                             myString.push(columnTumbler.currentIndex + 1)
-                            dbPlacement.saveChanges(myString)
+                            appExchangePlacementEdit.saveChanges(myString)
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
-                            dbPlacement.nextItem()
+                            appExchangePlacementEdit.nextItem()
                         }
                     }
 
@@ -323,14 +323,14 @@ Dialog {
                             myString.push(boxTumbler.currentIndex + 1)
                             myString.push(rowTumbler.currentIndex + 1)
                             myString.push(columnTumbler.currentIndex + 1)
-                            dbPlacement.saveChanges(myString)
+                            appExchangePlacementEdit.saveChanges(myString)
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
-                            dbPlacement.lastItem()
+                            appExchangePlacementEdit.lastItem()
                         }
                     }
 
@@ -348,14 +348,14 @@ Dialog {
                             myString.push(boxTumbler.currentIndex + 1)
                             myString.push(rowTumbler.currentIndex + 1)
                             myString.push(columnTumbler.currentIndex + 1)
-                            dbPlacement.saveChanges(myString)
+                            appExchangePlacementEdit.saveChanges(myString)
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
                             myString.pop()
-                            dbPlacement.addItem()
+                            appExchangePlacementEdit.addItem()
                         }
                     }
                 }

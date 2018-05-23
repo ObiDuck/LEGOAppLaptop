@@ -77,21 +77,24 @@ QString DBExchange::sql_getDataForView()
 //получение новых данных текущего итема
 void DBExchange::updateView()
 {
-    QString strQuery;
-    QSqlQuery sqlQuery;
-    QStringList dataToSend;
-    int cnt = 0;
-    dataToSend.push_back(QString("%1").arg((m_currentItem)));
-    strQuery = sql_getDataForView();
-    sqlQuery.exec(strQuery);    
-    if (sqlQuery.next())
-    {
-       for (int i = 0; i < m_tableItems.size(); i++)
-        dataToSend.push_back(sqlQuery.value(i).toString());
-    }
-    sqlQuery.clear();
+  QString strQuery;
+  QSqlQuery sqlQuery;
+  QStringList dataToSend;
 
-    emit sendData(dataToSend);
+  dataToSend.push_back(QString("%1").arg((m_currentItem)));
+  strQuery = sql_getDataForView();
+  sqlQuery.exec(strQuery);
+  //currentQuery_.exec(strQUery);
+  if (sqlQuery.next())
+  //if (currentQuery.next())
+  {
+    for (int i = 0; i < m_tableItems.size(); i++)
+      dataToSend.push_back(sqlQuery.value(i).toString());
+  //    dataToSend.push_back(currentQuery_.value(i).toString());
+  }
+  sqlQuery.clear();
+
+  emit sendData(dataToSend);
 }
 
 //формируем строку для запроса в базу для обновления в бд с формы

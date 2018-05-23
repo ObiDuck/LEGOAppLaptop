@@ -24,14 +24,14 @@ Dialog {
     onClosed: {
         myString.push(nameField.text)
         myString.push(idCategory)
-        dbDetail.saveChanges(myString)
+        appExchangeDetailEdit.saveChanges(myString)
         myString.pop()
         myString.pop()
         myString.pop()
     }
 
    Connections {
-        target: dbDetail
+        target: appExchangeDetailEdit
         onSendData: {
             idField.text = array[0]
             nameField.text = array[1]
@@ -50,7 +50,7 @@ Dialog {
         {
             newImage = "temp" + iconDlg.file
             pathField.text = "loaded"
-            dbDetail.setIcon(iconDlg.file)
+            appExchangeDetailEdit.setIcon(iconDlg.file)
         }
     }
     ColumnLayout {
@@ -162,7 +162,7 @@ Dialog {
                     source: "./../../../assets/clr_delBttn.png"
                 }
                 radius: rad
-                onClicked: dbDetail.deleteItem()
+                onClicked: appExchangeDetailEdit.deleteItem()
             }
 
             RoundButton {
@@ -175,12 +175,12 @@ Dialog {
                 onClicked: {
                     myString.push(nameField.text)
                     myString.push(idCategory)
-                    dbDetail.saveChanges(myString)
+                    appExchangeDetailEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
                     myString.pop()
                     newImage = ""
-                    dbDetail.firstItem()
+                    appExchangeDetailEdit.firstItem()
                 }
             }
 
@@ -194,12 +194,12 @@ Dialog {
                 onClicked: {
                     myString.push(nameField.text)
                     myString.push(idCategory)
-                    dbDetail.saveChanges(myString)
+                    appExchangeDetailEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
                     myString.pop()
                     newImage = ""
-                    dbDetail.prevItem()
+                    appExchangeDetailEdit.prevItem()
                 }
             }
 
@@ -211,12 +211,12 @@ Dialog {
                 onEditingFinished: {
                     myString.push(nameField.text)
                     myString.push(idCategory)
-                    dbDetail.saveChanges(myString)
+                    appExchangeDetailEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
                     myString.pop()
                     newImage = ""
-                    dbDetail.jumpItem(text)
+                    appExchangeDetailEdit.jumpItem(text)
                 }
             }
 
@@ -230,12 +230,12 @@ Dialog {
                 onClicked: {
                     myString.push(nameField.text)
                     myString.push(idCategory)
-                    dbDetail.saveChanges(myString)
+                    appExchangeDetailEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
                     myString.pop()
                     newImage = ""
-                    dbDetail.nextItem()
+                    appExchangeDetailEdit.nextItem()
                 }
             }
 
@@ -249,12 +249,12 @@ Dialog {
                 onClicked: {
                     myString.push(nameField.text)
                     myString.push(idCategory)
-                    dbDetail.saveChanges(myString)
+                    appExchangeDetailEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
                     myString.pop()
                     newImage = ""
-                    dbDetail.lastItem()
+                    appExchangeDetailEdit.lastItem()
                 }
             }
 
@@ -268,12 +268,12 @@ Dialog {
                 onClicked: {
                     myString.push(nameField.text)
                     myString.push(idCategory)
-                    dbDetail.saveChanges(myString)
+                    appExchangeDetailEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
                     myString.pop()
                     newImage = ""
-                    dbDetail.addItem()
+                    appExchangeDetailEdit.addItem()
                 }
             }
         }

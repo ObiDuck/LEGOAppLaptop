@@ -5,7 +5,7 @@
 #include <QVector>
 #include <QString>
 #include <QPixmap>
-
+#include <QSqlQuery>
 
 class DBExchange : public QObject
 {
@@ -42,6 +42,7 @@ public slots:
     void applyFilter(int catFilter, int colorFilter, QString placeFilter);
 private:
     int m_currentItem;
+    QSqlQuery currentQuery_;
     QString m_linkedTable;
     QString m_tableName;
     QStringList m_tableItems;
