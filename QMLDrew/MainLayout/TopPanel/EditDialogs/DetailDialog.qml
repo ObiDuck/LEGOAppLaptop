@@ -27,16 +27,16 @@ Dialog {
         appExchangeDetailEdit.saveChanges(myString)
         myString.pop()
         myString.pop()
-        myString.pop()
     }
 
    Connections {
         target: appExchangeDetailEdit
         onSendData: {
             idField.text = array[0]
-            nameField.text = array[1]
-            idCategory = array[2]
-            pathField.text = array[3]
+            nameField.text = array[2]
+            idCategory = array[3]
+            pathField.text = array[4]
+            imageDetail.source = "image://imageProvider/dbDetail/" + array[1]
         }
         onSendMsg: {
             messageDialog.newText = newText
@@ -133,7 +133,7 @@ Dialog {
             ColumnLayout {
                 Image {
                     id: imageDetail
-                    source:  (pathField.text === "") ? "./../../../assets/clr_iconPic.png" : "image://imageProvider/dbDetail/" + idField.text + newImage
+                    source: "./../../../assets/clr_iconPic.png"
                     cache: false
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
                     Layout.preferredWidth: 100
@@ -178,7 +178,6 @@ Dialog {
                     appExchangeDetailEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
-                    myString.pop()
                     newImage = ""
                     appExchangeDetailEdit.firstItem()
                 }
@@ -197,7 +196,6 @@ Dialog {
                     appExchangeDetailEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
-                    myString.pop()
                     newImage = ""
                     appExchangeDetailEdit.prevItem()
                 }
@@ -214,9 +212,8 @@ Dialog {
                     appExchangeDetailEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
-                    myString.pop()
                     newImage = ""
-                    appExchangeDetailEdit.jumpItem(text)
+                    appExchangeDetailEdit.jumpItem(idField.text)
                 }
             }
 
@@ -231,7 +228,6 @@ Dialog {
                     myString.push(nameField.text)
                     myString.push(idCategory)
                     appExchangeDetailEdit.saveChanges(myString)
-                    myString.pop()
                     myString.pop()
                     myString.pop()
                     newImage = ""
@@ -252,7 +248,6 @@ Dialog {
                     appExchangeDetailEdit.saveChanges(myString)
                     myString.pop()
                     myString.pop()
-                    myString.pop()
                     newImage = ""
                     appExchangeDetailEdit.lastItem()
                 }
@@ -269,7 +264,6 @@ Dialog {
                     myString.push(nameField.text)
                     myString.push(idCategory)
                     appExchangeDetailEdit.saveChanges(myString)
-                    myString.pop()
                     myString.pop()
                     myString.pop()
                     newImage = ""

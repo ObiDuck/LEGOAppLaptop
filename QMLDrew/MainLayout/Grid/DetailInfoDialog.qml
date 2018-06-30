@@ -186,7 +186,7 @@ Dialog {
                     width: parent.width
                     height: parent.height
                     onClicked: {
-                        appCore.openPlacementDialog(idindex)
+                        appCore.openPlacementDialog(idindex, true)
                         close()
                     }
                 }

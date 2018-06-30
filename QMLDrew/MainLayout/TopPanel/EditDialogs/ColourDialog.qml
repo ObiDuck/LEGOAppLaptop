@@ -34,9 +34,9 @@ Dialog {
         target: appExchangeColourEdit
         onSendData: {
             idField.text = array[0]
-            nameField.text = array[1]
-            familyBox.currentIndex = array[2] - 1
-            colorDlg.color = array[3]
+            nameField.text = array[2]
+            familyBox.currentIndex = array[3] - 1
+            colorDlg.color = array[4]
         }
         onSendMsg: {
             messageDialog.newText = newText
@@ -146,7 +146,7 @@ Dialog {
                     myString.pop()
                     myString.pop()
                     myString.pop()
-                    appExchangeColourEdit.jumpItem(text)
+                    appExchangeColourEdit.jumpItem(idField.text)
                 }
             }
 

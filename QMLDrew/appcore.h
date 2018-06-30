@@ -17,8 +17,8 @@ class Appcore : public QObject
 {
     Q_OBJECT
 private:
-    QQmlApplicationEngine* m_Engine;
-    QQmlContext* m_Context;//контекст qml
+    QQmlApplicationEngine* qmlEngine_;
+    QQmlContext* qmlContext_;//контекст qml
     QStringListModel m_CategoryModel;//модель имен категорий
     QStringListModel m_ColorFamilyModel;//модель имен семейств цвета
     QStringListModel m_DetailModel;//модель деталей для выбора в диалоговом окне
@@ -30,7 +30,7 @@ private:
     QStringListModel m_ColorFamilyModel2Choose;//модель для выбора фильтра цвета
     QStringListModel m_CategoryFilterInDetail;//модель для выбора фильтра цвета
     DBExchangeModel m_DetailInfoModel;//модель для вывода информации о детали
-    QSqlDatabase m_dbLEGO;
+    QSqlDatabase database_;
 public:
     explicit Appcore(QObject *parent = 0);
     DBExchange categoryEditExchange;
@@ -41,6 +41,7 @@ public:
     DBExchange placementEditExchange;
     DBExchange subCategoryEditExchange;
     DBExchange detailGridExchange;
+    DBExchange detailPlacementGridExchange;
     DBExchange detailInPlacementEditExchange;
     ~Appcore();
     void setEngine(QQmlApplicationEngine *engine);
@@ -67,7 +68,7 @@ public slots:
     void closeDatabase();
     void openColorDialog();
     void openDetailDialog();
-    void openPlacementDialog(int index = 0);
+    void openPlacementDialog(int index = 0, bool rawIndex = false);
     void openChooseDetailDialog(int catFilter);
     void openChooseCatFilterDialog();
     void openChooseColorFilterDialog();

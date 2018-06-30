@@ -39,11 +39,12 @@ Dialog {
             //порядковый номер подкатегории
             idField.text = array[0]
             //имя подкатегории
-            nameField.text = array[1]
+            nameField.text = array[2]
             //невидимое поле с путем к картинке
-            pathField.text = array[3]
+            pathField.text = array[4]
             //индекс текущей категории
-            categoryBox.currentIndex = array[2] - 1
+            categoryBox.currentIndex = array[3] - 1
+            imageSubCategory.source = "image://imageProvider/dbSubCategory/" + array[1]
         }
         //окно сообщения
         onSendMsg: {
@@ -159,7 +160,7 @@ Dialog {
                         myString.pop()
                         myString.pop()
                         newImage = ""
-                        appExchangeSubCategoryEdit.jumpItem(text)
+                        appExchangeSubCategoryEdit.jumpItem(idField.text)
                     }
                 }
 
@@ -221,7 +222,7 @@ Dialog {
 
         Image {
             id: imageSubCategory
-            source:  (pathField.text === "") ? "./../../../assets/clr_iconPic.png" : "image://imageProvider/dbSubCategory/" + idField.text + newImage
+            source: "./../../../assets/clr_iconPic.png" //: "image://imageProvider/dbSubCategory/" + array[0] + newImage
             cache: false
             Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
             Layout.preferredWidth: 100

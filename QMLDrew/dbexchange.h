@@ -6,53 +6,57 @@
 #include <QString>
 #include <QPixmap>
 #include <QSqlQuery>
+#include <QSqlTableModel>
 
 class DBExchange : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit DBExchange(QObject *parent = 0);
-    void setTable(QString tableName, QStringList tableItems);
-    void updateView();    
-    void getItemsID();
-    int getCount();
+  explicit DBExchange(QObject *parent = 0);
+  void updateView(int id);
+  bool setDatabaseConnection(QSqlDatabase database, QString connectionName);
+  QSqlTableModel* tableModel;
+  bool hasPicture;
+  void Eve(QSqlDatabase &db);
+  void setName(QString tableName);
+  int getSize();
+  QStringList getIDs();
 signals:
-    void sendData(QStringList array);
-    void sendMsg(QString newText);
-    void sendByteArray(QString picArray);
+  void sendData(QStringList array);
+  void sendMsg(QString newText);
+  void sendByteArray(QString picArray);
 public slots:
-    QStringList getName();
-    QByteArray getIcon(int cur_id);
-    void setIcon(QString iconPath);
-    QString getColor(int id);
-    QString getFamilyColor(int id);
-    QString getFamilyColor(QString id);
-    int getID(int atID);
-    void getData();
-    void lastItem();
-    void firstItem();
-    void prevItem();
-    void nextItem();
-    void jumpItem(int newItemID);
-    void deleteItem();
-    void replaceItem(int newID);
-    void addItem();
-    void saveChanges(QStringList dataArray);
-    QList<QStringList> getInfo(int idDet);
-    void applyFilter(int catFilter, int colorFilter, QString placeFilter);
+  int getID(int atID);
+  QStringList getName();
+  QByteArray getIcon(int cur_id);
+  void setIcon(QString iconPath);
+  QString getColor(int id);
+  QString getFamilyColor(int id);
+  QString getFamilyColor(QString id);
+  void getData();
+  void lastItem();
+  void firstItem();
+  void prevItem();
+  void nextItem();
+  void jumpItem(int newItemID);
+  void jumpID(int newItemID);
+  void deleteItem();
+  void addItem();
+  void saveChanges(QStringList dataArray);
+  QList<QStringList> getInfo(int idDet);
+  void applyFilter(int catFilter, int colorFilter, QString placeFilter, QStringList& list);
 private:
-    int m_currentItem;
-    QSqlQuery currentQuery_;
-    QString m_linkedTable;
-    QString m_tableName;
-    QStringList m_tableItems;
-    QString sql_getDataForView();
-    QString sql_updateChanges(QStringList dataArray);
-    QString sql_delete();
-    QString sql_getItemsID();
-    QString sql_add();
-    QString sql_replace(int newID);
-    QVector<int> m_id;
+  int size;
+  bool filtered;
+  QString name;
+  QSqlDatabase dbLink_;
+  int m_currentItem;
+  QSqlQuery currentQuery_;
+  QString m_linkedTable;
+  QString m_tableName;
+  QStringList m_tableItems;
+  QString sql_getDataForView();
+  QString sql_add();
 };
 
 #endif // DBEXCHANGE_H

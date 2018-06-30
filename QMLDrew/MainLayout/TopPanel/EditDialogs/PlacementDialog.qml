@@ -41,13 +41,14 @@ Dialog {
         target: appExchangePlacementEdit
         onSendData: {
             idField.text = array[0]
-            idDetail.text = array[1]
-            colorID = array[2]
-            mainColor.color = appExchangePlacementEdit.getColor(array[2])
-            countSlider.value = array[3]
-            boxTumbler.currentIndex = array[4] - 1
-            rowTumbler.currentIndex = array[5] - 1
-            columnTumbler.currentIndex = array[6] - 1
+            idDetail.text = array[2]
+            colorID = array[3]
+            mainColor.color = appExchangeColourEdit.getColor(array[3])
+            countSlider.value = array[4]
+            boxTumbler.currentIndex = array[5] - 1
+            rowTumbler.currentIndex = array[6] - 1
+            columnTumbler.currentIndex = array[7] - 1
+            imageDetail.source = "image://imageProvider/dbDetail/" + idDetail.text
         }
         onSendMsg: {
             messageDialog.newText = newText
@@ -65,7 +66,10 @@ Dialog {
 
     SelectDetailDialog {
         id: pickDetailDlg
-        onClosed: idDetail.text = dbDetail4Placement.getID(pickDetailDlg.chosenID)
+        onClosed: {
+            idDetail.text = pickDetailDlg.chosenID
+            imageDetail.source = "image://imageProvider/dbDetail/" + pickDetailDlg.chosenID
+        }
     }
 
     ColumnLayout {
@@ -280,7 +284,7 @@ Dialog {
                             myString.pop()
                             myString.pop()
                             myString.pop()
-                            appExchangePlacementEdit.jumpItem(text)
+                            appExchangePlacementEdit.jumpItem(idField.text)
                         }
                     }
 

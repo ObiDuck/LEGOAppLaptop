@@ -5,6 +5,7 @@ import QtQuick.Window 2.1
 import "./../../../CustomizedItems"
 
 Dialog {
+    id: dlg
     //диалог с деталями
     property int margin: 11
     property int rad: 30
@@ -68,7 +69,7 @@ Dialog {
                          hoverEnabled: true
                          onClicked: {
                              chosenID = display
-                             close()
+                             dlg.close()
                          }
                      }
                  }
@@ -112,7 +113,7 @@ Dialog {
                          hoverEnabled: true
                          onClicked: {
                              appCore.openChooseDetailDialog(display)
-                             close()
+                             dlg.close()
                          }
                      }
                  }

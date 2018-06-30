@@ -6,491 +6,562 @@
 
 DBExchange::DBExchange(QObject *parent)
 {
-    m_currentItem = 1;
-    getItemsID();
-}
-
-void DBExchange::setTable(QString tableName, QStringList tableItems)
-{
-    m_tableItems.clear();
-    m_tableName = tableName;
-    for (int i = 0; i < tableItems.size(); i++)
-        m_tableItems.push_back(tableItems.at(i));
-
-    getItemsID();
-}
-
-int DBExchange::getCount()
-{
-    return m_id.size();
-}
-
-int DBExchange::getID(int atID)
-{
-    if (atID - 1 < 0)
-        return 0;
-    else
-        return m_id.at(atID - 1);
-}
-
-void DBExchange::getItemsID()
-{
-    QString strQuery;
-    QSqlQuery sqlQuery;
-
-    m_id.clear();
-    strQuery = sql_getItemsID();
-    sqlQuery.exec(strQuery);
-    while (sqlQuery.next())
-        m_id.push_back(sqlQuery.value(0).toInt());
-    sqlQuery.clear();
-}
-
-QString DBExchange::sql_getItemsID()
-{
-    QString strQuery;
-    strQuery.append("SELECT id FROM ");
-    strQuery.append(m_tableName);
-
-    return strQuery;
-}
-
-
-//формирование строки запроса для получения нововых данных текущего итема
-QString DBExchange::sql_getDataForView()
-{
-    QString strQuery;
-    strQuery.append("SELECT ");
-    for (int i = 0; i < m_tableItems.size() - 1; i++)
-    {
-        strQuery.append(m_tableItems.at(i));
-        strQuery.append(", ");
-    }
-    strQuery.append(m_tableItems.at(m_tableItems.size() - 1));
-    strQuery.append(" FROM ");
-    strQuery.append(m_tableName);
-    strQuery.append(QString(" WHERE id = %1").arg(m_id.at(m_currentItem-1)));
-
-    return strQuery;
+  m_currentItem = 1;
+  hasPicture = false;
+  size = 0;
+  filtered = false;
 }
 
 //получение новых данных текущего итема
-void DBExchange::updateView()
+void DBExchange::updateView(int id)
 {
   QString strQuery;
   QSqlQuery sqlQuery;
   QStringList dataToSend;
 
-  dataToSend.push_back(QString("%1").arg((m_currentItem)));
-  strQuery = sql_getDataForView();
-  sqlQuery.exec(strQuery);
-  //currentQuery_.exec(strQUery);
-  if (sqlQuery.next())
-  //if (currentQuery.next())
-  {
-    for (int i = 0; i < m_tableItems.size(); i++)
-      dataToSend.push_back(sqlQuery.value(i).toString());
-  //    dataToSend.push_back(currentQuery_.value(i).toString());
-  }
-  sqlQuery.clear();
-
+  tableModel->setTable(name);
+  tableModel->setFilter(QString("id = '%1'").arg(id));
+  tableModel->select();
+  dataToSend.append(QString("%1").arg(m_currentItem));
+  for (int i = 0; i < tableModel->record(0).count(); i++)
+    dataToSend.push_back(tableModel->record(0).value(i).toString());
+  tableModel->clear();
   emit sendData(dataToSend);
 }
 
-//формируем строку для запроса в базу для обновления в бд с формы
-QString DBExchange::sql_updateChanges(QStringList dataArray)
+int DBExchange::getID(int atID)
 {
-    QString strQuery;
-
-    strQuery.append("UPDATE ");
-    strQuery.append(m_tableName);
-    strQuery.append(" SET ");
-    for (int i = 0; i < m_tableItems.size() - 1; i++)
-    {
-        strQuery.append(m_tableItems.at(i));//Name/Category/Icon
-        strQuery.append(" = '");
-        strQuery.append(dataArray.at(i));
-        strQuery.append("', ");
-    }
-    if ((m_tableItems.last() != "Icon")&&(m_tableItems.last() != "Picture"))
-    {
-        strQuery.append(m_tableItems.at(m_tableItems.size() - 1));//Name/Category/Icon
-        strQuery.append(" = '");
-        strQuery.append(dataArray.at(m_tableItems.size() - 1));
-        strQuery.append("'");
-    }
-    else {
-        int i = strQuery.size();
-        if (i > 0)
-            strQuery.remove(i - 2, 2);
-    }
-
-    strQuery.append(" WHERE id = ");
-    strQuery.append(QString("%1").arg(m_id.at(m_currentItem - 1)));
-
-    return strQuery;
+  if (atID < 0)
+    return 0;
+  else
+  {
+    QSqlRecord record;
+    tableModel->setTable(name);
+    tableModel->select();
+    int id;
+    while(tableModel->canFetchMore())
+      tableModel->fetchMore();
+    record = tableModel->record(atID);
+    id = record.value("id").toInt();
+    tableModel->clear();
+    return id;
+  }
 }
-//получаем список данных из qml о том, как заполнили форму и обновляем БД в соответствии с этим
+
+int DBExchange::getSize()
+{
+  if (filtered)
+    return size;
+  else
+  {
+    tableModel->setTable(name);
+    tableModel->select();
+    while(tableModel->canFetchMore())
+      tableModel->fetchMore();
+    size = tableModel->rowCount();
+    return size;
+  }
+}
+
+bool DBExchange::setDatabaseConnection(QSqlDatabase database, QString connectionName)
+{
+  bool ret;
+  dbLink_ = QSqlDatabase::cloneDatabase(database,"subcatconnection");
+  dbLink_.open();
+  ret = dbLink_.isOpen();
+
+  return ret;
+}
+
+void DBExchange::Eve(QSqlDatabase &db)
+{
+  QSqlRecord record;
+  QByteArray result;
+  tableModel->setTable(name);
+  tableModel->select();
+  tableModel->removeRow(5, QModelIndex());
+  tableModel->clear();
+ // tableModel->setTable("Detail");
+ /* bool res = tableModel->selectRow(4);
+  QString select = tableModel->filter();
+  record = tableModel->record(0);
+  record = tableModel->record(1);
+
+  record = tableModel->record(2);
+
+  record = tableModel->record(3);
+
+  record = tableModel->record(4);
+
+  record = tableModel->record(5);
+
+  record = tableModel->record(6);
+  result = record.value(tableModel->columnCount()-1).toByteArray();
+  tableModel->clear();*/
+    /*  dbLink_.transaction();
+  QString f = "pooopy";
+  QSqlRecord record;
+  tableModel->setFilter(QString("id IN (SELECT Detail FROM Placement WHERE Color = '%1')").arg(1));
+  tableModel->select();
+  //QModelIndex ind = tableModel->index(2, 1, QModelIndex());
+  for (int i = 0; i < tableModel->rowCount(); i++)
+  {
+    record = tableModel->record(i);
+    QString str = record.value(1).toString();
+    int yet = i;
+  }
+  record.setValue("Name", "Temporary");
+  if (tableModel->insertRecord(-1, record))
+  //if(tableModel->removeRow(4, QModelIndex()))
+  //if(tableModel->setData(ind, "Poop"))
+  {
+    qDebug()<<"successful insertion";
+  }
+  else
+  {
+    f = "nope";
+  }
+  tableModel->submitAll();
+  dbLink_.commit();*/
+}
+
 void DBExchange::saveChanges(QStringList dataArray)
 {
-    QString strQuery;
-    QSqlQuery sqlQuery;
-    QSqlError err;
-    bool flag;
-
-    strQuery = sql_updateChanges(dataArray);
-    flag = sqlQuery.exec(strQuery);
-    if (!flag)
-        err = sqlQuery.lastError();
-    sqlQuery.clear();
-}
-
-QString DBExchange::sql_delete()
-{
-    QString strQuery;
-
-    strQuery.append("DELETE FROM ");
-    strQuery.append(m_tableName);
-    strQuery.append(" WHERE id = ");
-    strQuery.append(QString("%1").arg(m_id.at(m_currentItem - 1)));
-
-    return strQuery;
-}
-
-QString DBExchange::sql_replace(int newID)
-{//????
-    QString strQuery;
-    strQuery.append("UPDATE ");
-    strQuery.append(m_linkedTable);
-    strQuery.append(" SET ");
-    strQuery.append(m_tableName);
-    strQuery.append(" = ");
-    strQuery.append(newID);
-    strQuery.append(" WHERE ");
-    strQuery.append(m_tableName);
-    strQuery.append(" = ");
-    strQuery.append(QString("%1").arg(m_id.at(m_currentItem - 1)));
-
-    return strQuery;
-}
-
-void DBExchange::replaceItem(int newID)
-{
-    QString strQuery;
-    QSqlQuery sqlQuery;
-
-    strQuery = sql_replace(newID);
-    sqlQuery.exec(strQuery);
-    deleteItem();
-    sqlQuery.clear();
+  dbLink_.transaction();
+  tableModel->setTable(name);
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  size = tableModel->rowCount();
+  int columnCount = hasPicture ? tableModel->columnCount() - 2 : tableModel->columnCount() - 1;
+  for (int i = 0; i < columnCount; i++)
+  {
+    QModelIndex index = tableModel->index(m_currentItem-1, i + 1, QModelIndex());
+    tableModel->setData(index, dataArray.at(i));
+  }
+  tableModel->submitAll();
+  dbLink_.commit();
+  tableModel->clear();
 }
 
 void DBExchange::deleteItem()
 {
-    QString strQuery;
-    QSqlQuery sqlQuery;
-
-    strQuery = sql_delete();
-    sqlQuery.exec(strQuery);
-    m_id.remove(m_currentItem - 1);
-    if (m_currentItem > 1)
-        m_currentItem--;
-    getItemsID();
-    updateView();
-    sqlQuery.clear();
-}
-
-
-QString DBExchange::sql_add()
-{
-    QString strQuery;
-
-    strQuery.append("INSERT INTO ");
-    strQuery.append(m_tableName);
-    strQuery.append(" (");    
-    strQuery.append(m_tableItems.at(0));
-    strQuery.append(") VALUES (1)");
-
-    return strQuery;
+  QSqlRecord record;
+  dbLink_.transaction();
+  tableModel->setTable(name);
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  tableModel->removeRow(m_currentItem-1, QModelIndex());
+  if (m_currentItem > 1)
+      m_currentItem--;
+  tableModel->submitAll();
+  dbLink_.commit();
+  size = tableModel->rowCount();
+  tableModel->clear();
+  tableModel->setTable(name);
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  record = tableModel->record(m_currentItem-1);
+  updateView(record.value("id").toInt());
 }
 
 void DBExchange::addItem()
 {
-    QString strQuery;
-    QSqlQuery sqlQuery;
-
-    strQuery = sql_add();
-    sqlQuery.exec(strQuery);
-    getItemsID();
-    m_currentItem = m_id.size();
-    updateView();
-    sqlQuery.clear();
+  dbLink_.transaction();
+  tableModel->setTable(name);
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  QSqlRecord record = tableModel->record();
+  record.setValue("Name", "Temporary");
+  tableModel->insertRecord(-1, record);
+  m_currentItem++;
+  tableModel->submitAll();
+  dbLink_.commit();
+  size = tableModel->rowCount();
+  int id;
+  record = tableModel->record(m_currentItem-1);
+  id = record.value("id").toInt();
+  tableModel->clear();
+  updateView(id);
 }
 
 void DBExchange::nextItem()
 {
-    if (m_currentItem == m_id.size())
-        emit sendMsg("End of data reached");
-    else
-    {
-        m_currentItem++;
-        updateView();
-    }
+  QSqlRecord record;
+  tableModel->setTable(name);
+  tableModel->select();
+  int id;
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  int count = tableModel->rowCount();
+  if (m_currentItem == count)
+    emit sendMsg("End of data reached");
+  else
+    m_currentItem++;
+  record = tableModel->record(m_currentItem-1);
+  id = record.value("id").toInt();
+  tableModel->clear();
+  updateView(id);
 }
 
+
+void DBExchange::jumpID(int newItemID)
+{
+  tableModel->setTable(name);
+  tableModel->setFilter(QString("id = '%1'").arg(newItemID));
+  tableModel->select();
+  int i = tableModel->rowCount();
+  if (i != 0)
+  {
+    QSqlRecord record;
+    int id;
+    tableModel->clear();
+    tableModel->setTable(name);
+    tableModel->select();
+    while(tableModel->canFetchMore())
+      tableModel->fetchMore();
+    i = tableModel->rowCount();
+    for (int j = 0; j < i; j++)
+    {
+      record = tableModel->record(j);
+      id = record.value("id").toInt();
+      if (id == newItemID)
+        m_currentItem = j + 1;
+    }
+    updateView(newItemID);
+  }
+  else
+  {
+    emit sendMsg("Wrong item index");
+    QSqlRecord record;
+    tableModel->clear();
+    tableModel->setTable(name);
+    tableModel->select();
+    int id;
+    while(tableModel->canFetchMore())
+      tableModel->fetchMore();
+    record = tableModel->record(m_currentItem-1);
+    id = record.value("id").toInt();
+    tableModel->clear();
+     updateView(id);
+  }
+}
 void DBExchange::jumpItem(int newItemID)
 {
-    if (newItemID <= 0 || newItemID > m_id.size())
-    {
-        emit sendMsg("Wrong item index");
-        if (newItemID <= 0)
-        {
-            m_currentItem = 1;
-            updateView();
-        }
-        if (newItemID > m_id.size())
-        {
-            m_currentItem = m_id.size();
-            updateView();
-        }
+  QSqlRecord record;
+  tableModel->setTable(name);
+  tableModel->select();
+  int id;
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  int count = tableModel->rowCount() - 1;
 
-        return;
-    }
-
-    if (newItemID != m_currentItem)
+  if (newItemID <= 0 || newItemID > count)
+  {
+    emit sendMsg("Wrong item index");
+    if (newItemID <= 0)
     {
-        m_currentItem = newItemID;
-        updateView();
+        m_currentItem = 1;
+        record = tableModel->record(m_currentItem-1);
+        id = record.value("id").toInt();
+        tableModel->clear();
+         updateView(id);
     }
+    if (newItemID > count)
+    {
+        m_currentItem = count;
+        record = tableModel->record(m_currentItem-1);
+        id = record.value("id").toInt();
+        tableModel->clear();
+         updateView(id);
+    }
+    return;
+  }
+
+  if (newItemID != m_currentItem)
+  {
+    m_currentItem = newItemID;   
+    record = tableModel->record(m_currentItem-1);
+    id = record.value("id").toInt();
+    tableModel->clear();
+      updateView(id);
+  }
+
 }
 
 void DBExchange::prevItem()
 {
-    if (m_currentItem == 1)
-        emit sendMsg("End of data reached");
-    else
-    {
-        m_currentItem--;
-        updateView();
-    }
+  if (m_currentItem == 1)
+      emit sendMsg("End of data reached");
+  else
+  {
+    QSqlRecord record;
+    int id;
+    tableModel->setTable(name);
+    tableModel->select();
+    while(tableModel->canFetchMore())
+      tableModel->fetchMore();
+      m_currentItem--;
+      record = tableModel->record(m_currentItem-1);
+      id = record.value("id").toInt();
+      updateView(id);
+  }
 }
 
 void DBExchange::firstItem()
 {
-    m_currentItem = 1;
-    updateView();
+  QSqlRecord record;
+  int id;
+  tableModel->setTable(name);
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  m_currentItem = 1;
+  record = tableModel->record(m_currentItem-1);
+  id = record.value("id").toInt();
+  updateView(id);
 }
 
 void DBExchange::lastItem()
 {
-    m_currentItem = m_id.size();
-    updateView();
+  QSqlRecord record;
+  int id;
+  tableModel->setTable(name);
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  m_currentItem = tableModel->rowCount();
+  record = tableModel->record(m_currentItem-1);
+  id = record.value("id").toInt();
+   tableModel->clear();
+  updateView(id);
 }
 
 QStringList DBExchange::getName()
 {
-    QString strQuery;
-    QSqlQuery sqlQuery;
-    QStringList listToSend;
-
-    strQuery.append("SELECT Name FROM ");
-    strQuery.append(m_tableName);
-
-    sqlQuery.exec(strQuery);
-    while (sqlQuery.next())
-    {
-       listToSend.push_back(sqlQuery.value(0).toString());
-    }
-    sqlQuery.clear();
-
-    return listToSend;
+  QStringList listToSend;
+  QSqlRecord record;
+  tableModel->setTable(name);
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  for (int i = 0; i < tableModel->rowCount(); i++)
+  {
+    record = tableModel->record(i);
+    listToSend.push_back(record.value("Name").toString());
+  }
+  tableModel->clear();
+  return listToSend;
 }
 
-QByteArray DBExchange::getIcon(int cur_id)
+QByteArray DBExchange::getIcon(int cur_id)//correct
 {
-    QString strQuery;
-    QSqlQuery sqlQuery;
-    QStringList dataToSend;
-    QByteArray result;
+  QStringList dataToSend;
+  QByteArray result;
+  QSqlRecord record;
 
-    strQuery.append("SELECT ");
-    strQuery.append(m_tableItems.last());
-    strQuery.append(" FROM ");
-    strQuery.append(m_tableName);
-    strQuery.append(" WHERE id = ");
-    strQuery.append(QString("%1").arg(m_id.at(cur_id-1)));
-
-    sqlQuery.exec(strQuery);
-
-    if (sqlQuery.next())
-    {
-       result = (sqlQuery.value(0).toByteArray());
-    }
-    sqlQuery.clear();
-    return result;
+  tableModel->setTable(name);
+  tableModel->setFilter(QString("id = '%1'").arg(cur_id));
+  tableModel->select();
+  record = tableModel->record(0);
+  result = record.value(tableModel->columnCount()-1).toByteArray();
+  tableModel->clear();
+  return result;
 }
 
 QString DBExchange::getColor(int id)
 {
-    QString strQuery;
-    QSqlQuery sqlQuery;
-    QString dataToSend;
+  QString dataToSend;
+  QSqlRecord record;
 
-    strQuery.append(QString("SELECT ColorValue FROM Color WHERE id = %1").arg(id));
-    sqlQuery.exec(strQuery);
+  tableModel->setTable(name);
+  tableModel->setFilter(QString("id = '%1'").arg(id));
+  tableModel->select();
+  record = tableModel->record(0);
+  dataToSend = record.value("ColorValue").toString();
+  tableModel->clear();
 
-    while (sqlQuery.next())
-    {
-       dataToSend.push_back(sqlQuery.value(0).toString());
-    }
-    sqlQuery.clear();
-    return dataToSend;
+  return dataToSend;
+}
+
+QStringList DBExchange::getIDs()
+{
+  QStringList list;
+  QSqlRecord record;
+  tableModel->setTable(name);
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  int yet = tableModel->rowCount();
+  for (int i = 0; i < yet; i++)
+  {
+    record = tableModel->record(i);
+    list.push_back(record.value("id").toString());
+  }
+  tableModel->clear();
+  return list;
 }
 
 QString DBExchange::getFamilyColor(int id)
-{
-    QString strQuery;
-    QSqlQuery sqlQuery;
-    QString dataToSend = "";
-    if (id >= 0) {
-    strQuery.append(QString("SELECT Family FROM Color WHERE id = %1").arg(m_id.at(id)));
-    sqlQuery.exec(strQuery);
+{    
+  QString dataToSend;
+  QSqlRecord record;
+  tableModel->setTable(name);
+  tableModel->setFilter(QString("id = '%1'").arg(id));
+  tableModel->select();
+  record = tableModel->record(0);
+  dataToSend = record.value("Family").toString();
+  tableModel->clear();
+  if (dataToSend == "1") dataToSend = "T";
+  else if (dataToSend == "2") dataToSend = "M";
+  else dataToSend = "";
 
-    while (sqlQuery.next())
-    {
-       dataToSend.push_back(sqlQuery.value(0).toString());
-    }
-    sqlQuery.clear();
-
-    if (dataToSend == "1") dataToSend = "T";
-    else if (dataToSend == "2") dataToSend = "M";
-    else dataToSend = "";
-    }
-    return dataToSend;
+  return dataToSend;
 }
 
 QString DBExchange::getFamilyColor(QString id)
 {
-    QString strQuery;
-    QSqlQuery sqlQuery;
-    QString dataToSend = "";
+  QSqlRecord record;
+  QString dataToSend;
 
-    strQuery.append(QString("SELECT Family FROM Color WHERE ColorValue = \"%1\"").arg(id));
-    sqlQuery.exec(strQuery);
+  tableModel->setTable(name);
+  tableModel->setFilter(QString("ColorValue = \"%1\"").arg(id));
+  tableModel->select();
+  record = tableModel->record(0);
+  dataToSend = record.value("Family").toString();
+  tableModel->clear();
+  if (dataToSend == "1") dataToSend = "T";
+  else if (dataToSend == "2") dataToSend = "M";
+  else dataToSend = "";
 
-    while (sqlQuery.next())
-    {
-       dataToSend.push_back(sqlQuery.value(0).toString());
-    }
-    sqlQuery.clear();
-
-    if (dataToSend == "1") dataToSend = "T";
-    else if (dataToSend == "2") dataToSend = "M";
-    else dataToSend = "";
-
-    return dataToSend;
+  return dataToSend;
 }
 
 void DBExchange::getData()
 {
-    m_currentItem = 1;
-    updateView();
+  QSqlRecord record;
+  int id;
+  m_currentItem = 1;
+  tableModel->setTable(name);
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  record = tableModel->record(m_currentItem-1);
+  id = record.value("id").toInt();
+    tableModel->clear();
+  updateView(id);
 }
 
 void DBExchange::setIcon(QString iconPath)
 {
-    QByteArray bArray;
-    QImage img;
-    QPixmap pxmap;
-    QString strQuery;
-    QBuffer buf;
-    QSqlQuery sqlQuery;
-    QSqlError err;
-    bool flag;
+  QByteArray bArray;
+  QImage img;
+  QPixmap pxmap;
+  QString strQuery;
+  QBuffer buf;
+  QSqlQuery sqlQuery;
+  QSqlError err;
+  bool flag;
+  QSqlRecord record;
 
-    iconPath.remove(0,8);
-    img.load(iconPath);
-    pxmap.convertFromImage(img);
-    buf.setBuffer(&bArray);
-    buf.open(QIODevice::WriteOnly);
-    pxmap.save(&buf, "PNG");
-    buf.close();
+  tableModel->setTable(name);
+  dbLink_.transaction();
+  tableModel->select();
+  iconPath.remove(0,8);
+  img.load(iconPath);
+  pxmap.convertFromImage(img);
+  buf.setBuffer(&bArray);
+  buf.open(QIODevice::WriteOnly);
+  pxmap.save(&buf, "PNG");
+  buf.close();
 
-    strQuery.append("UPDATE ");
-    strQuery.append(m_tableName);
-    strQuery.append(" SET ");
-    strQuery.append(m_tableItems.at(m_tableItems.size() - 1));//Name/Category/Icon
-    strQuery.append(" = :picture WHERE id = :id");
-
-    sqlQuery.prepare(strQuery);
-    sqlQuery.bindValue(":picture", bArray);
-    sqlQuery.bindValue(":id", m_id.at(m_currentItem - 1));
-    flag = sqlQuery.exec();
-    if (!flag)
-        err = sqlQuery.lastError();
-    sqlQuery.clear();
+  QModelIndex index = tableModel->index(m_currentItem-1, tableModel->columnCount()-1, QModelIndex());
+  tableModel->setData(index, bArray);
+  tableModel->submitAll();
+  dbLink_.commit();
+  int id;
+  record = tableModel->record(m_currentItem-1);
+  id = record.value("id").toInt();
+  tableModel->clear();
+  updateView(id);
 }
 
-
-void DBExchange::applyFilter(int catFilter, int colorFilter, QString placeFilter)
+void DBExchange::applyFilter(int catFilter, int colorFilter, QString placeFilter, QStringList& list)
 {
-    QString strQuery, boxIndx, rowIndx, columnIndx;
-    QSqlQuery sqlQuery;
+  QString strQuery, boxIndx, rowIndx, columnIndx;
+  QSqlQuery sqlQuery;
+  filtered = true;
+  tableModel->setTable(name);
+  if ((catFilter != 0) && (colorFilter == 0) && (placeFilter == "0/0/0"))
+    tableModel->setFilter(QString("SubCategory = '%1'").arg(catFilter));
+  if ((catFilter == 0) && (colorFilter != 0) && (placeFilter == "0/0/0"))
+    tableModel->setFilter(QString("id IN (SELECT Detail FROM Placement WHERE Color = '%1')").arg(colorFilter));
+  if ((catFilter != 0) && (colorFilter != 0) && (placeFilter == "0/0/0"))
+    tableModel->setFilter(QString("SubCategory = '%1' AND id IN (SELECT Detail FROM Placement WHERE Color = '%2')").arg(catFilter).arg(colorFilter));
+  if ((catFilter == 0) && (colorFilter == 0) && (placeFilter != "0/0/0"))
+  {
+    boxIndx = placeFilter.section("/", 0, 0);
+    rowIndx = placeFilter.section("/", 1, 1);
+    columnIndx = placeFilter.section("/", 2);
+    tableModel->setFilter(QString("id IN (SELECT Detail FROM Placement WHERE BoxIndex = '%1' AND RowIndex = '%2' AND ColumnIndex = '%3')").arg(boxIndx).arg(rowIndx).arg(columnIndx));
+  }
 
-    m_id.clear();
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  QSqlRecord record;
+  for (int i = 0; i < tableModel->rowCount(); i++)
+  {
+    record = tableModel->record(i);
+    list.push_back(record.value("id").toString());
+  }
+  size = tableModel->rowCount();
+  tableModel->clear();
+}
 
-    if ((catFilter == 0) && (colorFilter == 0) && (placeFilter == "0/0/0"))
-        strQuery = QString("SELECT id FROM Detail");
-    if ((catFilter != 0) && (colorFilter == 0) && (placeFilter == "0/0/0"))
-        strQuery = QString("SELECT id FROM Detail WHERE SubCategory = '%1'").arg(catFilter);
-    if ((catFilter == 0) && (colorFilter != 0) && (placeFilter == "0/0/0"))
-         strQuery = QString("SELECT id FROM Detail WHERE id IN (SELECT Detail FROM Placement WHERE Color = '%1')").arg(colorFilter);
-    if ((catFilter != 0) && (colorFilter != 0) && (placeFilter == "0/0/0"))
-        strQuery = QString("SELECT id FROM Detail WHERE SubCategory = '%1' AND id IN (SELECT Detail FROM Placement WHERE Color = '%2')").arg(catFilter).arg(colorFilter);
-    if ((catFilter == 0) && (colorFilter == 0) && (placeFilter != "0/0/0"))
-    {
-        boxIndx = placeFilter.section("/", 0, 0);
-        rowIndx = placeFilter.section("/", 1, 1);
-        columnIndx = placeFilter.section("/", 2);
-        strQuery = QString("SELECT id FROM Detail WHERE id IN (SELECT Detail FROM Placement WHERE BoxIndex = '%1' AND RowIndex = '%2' AND ColumnIndex = '%3')").arg(boxIndx).arg(rowIndx).arg(columnIndx);
-    }
-    sqlQuery.exec(strQuery);
-    while (sqlQuery.next())
-        m_id.push_back(sqlQuery.value(0).toInt());
-    sqlQuery.clear();
+void DBExchange::setName(QString tableName)
+{
+  name = tableName;
+  tableModel->setTable(name);
 }
 
 QList<QStringList> DBExchange::getInfo(int idDet)
 {
-    QString strQuery1;
-    QSqlQuery sqlQuery1;
-    QString strQuery2;
-    QSqlQuery sqlQuery2;
-    QString res;
-    QStringList data;
-    QList<QStringList> modelProto;
-
-    strQuery1 = QString("SELECT Color, BoxIndex, RowIndex, ColumnIndex, Count, id FROM Placement WHERE Detail = '%1'").arg(m_id.at(idDet-1));
-    sqlQuery1.exec(strQuery1);
-        while (sqlQuery1.next())
-        {
-            data.append(sqlQuery1.value(0).toString());
-            data.append(sqlQuery1.value(1).toString());
-            data.append(sqlQuery1.value(2).toString());
-            data.append(sqlQuery1.value(3).toString());
-            data.append(sqlQuery1.value(4).toString());
-            data.append(sqlQuery1.value(5).toString());
-            res = data.at(0);
-            int index;
-            index = res.toInt();
-            strQuery2 = QString("SELECT ColorValue FROM Color WHERE id = %1").arg(index);
-            sqlQuery2.exec(strQuery2);
-            sqlQuery2.next();
-            data.replace(0, sqlQuery2.value(0).toString());
-            modelProto.append(data);
-            data.clear();
-        }
-    sqlQuery1.clear();
-    sqlQuery2.clear();
-    return modelProto;
+  QString strQuery;
+  QSqlQuery sqlQuery;
+  QString res;
+  QStringList data;
+  QList<QStringList> modelProto;
+  //strQuery1 = QString("SELECT Color, BoxIndex, RowIndex, ColumnIndex, Count, id FROM Placement WHERE Detail = '%1'").arg(m_id.at(idDet-1));
+  tableModel->setTable(name);
+  tableModel->setFilter(QString("Detail = '%1'").arg(idDet));
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  for (int i = 0; i < tableModel->rowCount(); i++)
+  {
+    QSqlRecord record;
+    record = tableModel->record(i);
+    data.append(record.value("Color").toString());
+    data.append(record.value("BoxIndex").toString());
+    data.append(record.value("RowIndex").toString());
+    data.append(record.value("ColumnIndex").toString());
+    data.append(record.value("Count").toString());
+    data.append(record.value("id").toString());
+    res = data.at(0);
+    int index;
+    index = res.toInt();
+    strQuery = QString("SELECT ColorValue FROM Color WHERE id = %1").arg(index);
+    sqlQuery.exec(strQuery);
+    sqlQuery.next();
+    data.replace(0, sqlQuery.value(0).toString());
+    modelProto.append(data);
+    data.clear();
+  }
+  sqlQuery.clear();
+  tableModel->clear();
+  return modelProto;
 }
