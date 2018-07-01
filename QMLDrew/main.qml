@@ -223,14 +223,14 @@ ApplicationWindow {
                 id: boxTumbler
                // width: colorsToolButton.width
                // height: colorsToolButton.height
-                model: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+                model: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
                 visibleItemCount: 1
-                onMovingChanged: if (placeFilterSwitch.checked == true)
+               /* onMovingChanged: if (placeFilterSwitch.checked == true)
                                  {
                                      place = (boxTumbler.currentIndex + 1) + "/" + (rowTumbler.currentIndex + 1) + "/" + (columnTumbler.currentIndex + 1)
                                      appCore.getDetails(0,0, place)
-                                 }
-               /* MouseArea {
+                                 }*/
+                MouseArea {
                     anchors.fill: parent
                     onWheel: {
                         if (wheel.angleDelta.y < 0)
@@ -243,7 +243,7 @@ ApplicationWindow {
                             appCore.getDetails(0,0, place)
                         }
                     }
-                }*/
+                }
                /* delegate: Text {
                     text: modelData
                     opacity: 0.4 + Math.max(0, 1 - Math.abs(Tumbler.displacement)) * 0.6

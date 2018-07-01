@@ -150,9 +150,9 @@ Dialog {
                         background: CustomBackgroundRectangle {}
                         Layout.preferredWidth: clmnLabel.width
                         Layout.preferredHeight: clmnLabel.height*6
-                        model: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+                        model: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
                         visibleItemCount: 3
-                        /*MouseArea {
+                        MouseArea {
                             anchors.fill: parent
                             onWheel: {
                                 if (wheel.angleDelta.y < 0)
@@ -160,7 +160,7 @@ Dialog {
                                 else
                                     boxTumbler.currentIndex--
                             }
-                        }*/
+                        }
                     }
                     Tumbler {
                         id: rowTumbler
@@ -169,7 +169,7 @@ Dialog {
                         Layout.preferredHeight: clmnLabel.height*6
                         model: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
                         visibleItemCount: 3
-                        /*MouseArea {
+                        MouseArea {
                             anchors.fill: parent
                             onWheel: {
                                 if (wheel.angleDelta.y < 0)
@@ -177,7 +177,7 @@ Dialog {
                                 else
                                     rowTumbler.currentIndex--
                             }
-                        }*/
+                        }
                     }
                     Tumbler {
                         id: columnTumbler
@@ -186,7 +186,7 @@ Dialog {
                         Layout.preferredHeight: clmnLabel.height*6
                         model: ["1", "2", "3", "4", "5"]
                         visibleItemCount: 3
-                        /*MouseArea {
+                        MouseArea {
                             anchors.fill: parent
                             onWheel: {
                                 if (wheel.angleDelta.y < 0)
@@ -194,7 +194,7 @@ Dialog {
                                 else
                                     columnTumbler.currentIndex--
                             }
-                        }*/
+                        }
                     }
                     CustomSlider {
                         id: countSlider
