@@ -160,7 +160,7 @@ Dialog {
                 height: sizeOfItems
                 color: colorrole
                 Text {
-                    text: dbColor.getFamilyColor(colorrole)
+                    text: appExchangeColourEdit.getFamilyColor(colorrole)
                     anchors.centerIn: parent
                     font.pointSize: 48
                     fontSizeMode: Text.Fit

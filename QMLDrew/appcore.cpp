@@ -237,8 +237,8 @@ void Appcore::openPlacementDialog(int index, bool rawIndex)
     if (database_.isOpen())
     {
         QStringList list;
-        for (int i = 1; i <= colourEditExchange.getSize(); i++)
-            list.append(colourEditExchange.getColor(i));
+
+        list = colourEditExchange.getColorsList();
         m_ShowColorModel.setStringList(list);
         qmlContext_->setContextProperty("colorModel", &m_ShowColorModel);
         if (index == 0)
@@ -316,7 +316,7 @@ void Appcore::openChooseColorFilterDialog()
         QString temp;
         for (int i = 1; i <= colourEditExchange.getSize(); i++)
         {
-            list.append(colourEditExchange.getColor(i));
+            list = colourEditExchange.getColorsList();
            /* temp = colourTable.getFamilyColor(i);
             switch (temp) {
                 case "1": temp = "T"; break;

@@ -120,6 +120,12 @@ Dialog {
                                              height: parent.height
                                              color: display
                                              Layout.fillWidth: true
+                                             Text {
+                                                 text: appExchangeColourEdit.getFamilyColor(display)
+                                                 anchors.centerIn: parent
+                                                 font.pointSize: 48
+                                                 fontSizeMode: Text.Fit
+                                             }
                                          }
                                          MouseArea {
                                              id: area

@@ -46,7 +46,7 @@ Dialog {
                      color: display
                      Layout.fillWidth: true
                      Text {
-                         text: dbColor.getFamilyColor(index)
+                         text: appExchangeColourEdit.getFamilyColor(display)
                          anchors.centerIn: parent
                          font.pointSize: 48
                          fontSizeMode: Text.Fit

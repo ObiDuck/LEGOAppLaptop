@@ -387,6 +387,24 @@ QString DBExchange::getColor(int id)
   return dataToSend;
 }
 
+QStringList DBExchange::getColorsList()
+{
+  QStringList list;
+  QSqlRecord record;
+  tableModel->setTable(name);
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  int yet = tableModel->rowCount();
+  for (int i = 0; i < yet; i++)
+  {
+    record = tableModel->record(i);
+    list.push_back(record.value("ColorValue").toString());
+  }
+  tableModel->clear();
+  return list;
+}
+
 QStringList DBExchange::getIDs()
 {
   QStringList list;

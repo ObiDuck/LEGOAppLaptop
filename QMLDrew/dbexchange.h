@@ -31,6 +31,7 @@ public slots:
   QByteArray getIcon(int cur_id);
   void setIcon(QString iconPath);
   QString getColor(int id);
+  QStringList getColorsList();
   QString getFamilyColor(int id);
   QString getFamilyColor(QString id);
   void getData();
