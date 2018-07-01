@@ -470,6 +470,8 @@ void DBExchange::setIcon(QString iconPath)
   tableModel->setTable(name);
   dbLink_.transaction();
   tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
   iconPath.remove(0,8);
   img.load(iconPath);
   pxmap.convertFromImage(img);
