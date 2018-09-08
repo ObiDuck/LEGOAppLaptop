@@ -218,7 +218,7 @@ void Appcore::openColorDialog()
     emit showColorDialog();
 }
 
-void Appcore::openDetailDialog()
+void Appcore::openDetailDialog(int index)
 {
     if (database_.isOpen())
     {
@@ -226,7 +226,14 @@ void Appcore::openDetailDialog()
         list = subCategoryEditExchange.getIDs();
         m_ShowSubCatModel.setStringList(list);
         qmlContext_->setContextProperty("subCatModel", &m_ShowSubCatModel);
-        detailEditExchange.getData();
+        if (index == 0)
+        {
+          detailEditExchange.getData();
+        }
+        else
+        {
+          detailEditExchange.jumpID(index);
+        }
     }
 
     emit showDetailDialog();
@@ -358,7 +365,7 @@ void Appcore::openDetailInfo(int detailID)
     m_DetailInfoModel.addData(listData.at(i));
   qmlContext_->setContextProperty("detailInfoModel", &m_DetailInfoModel);
 
-  emit showDetailInfo();
+  emit showDetailInfo(detailID);
 }
 
 

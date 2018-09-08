@@ -58,7 +58,7 @@ signals:
     void showChooseCatFilterDialog();
     void showChooseColorFilterDialog();
     void showDetails();
-    void showDetailInfo();
+    void showDetailInfo(int detailID);
     void setName(QString newText);
     void refreshDetails4Placement(QString newText);
 public slots:
@@ -67,7 +67,7 @@ public slots:
     void openDatabase(QUrl nameOfDB);
     void closeDatabase();
     void openColorDialog();
-    void openDetailDialog();
+    void openDetailDialog(int index = 0);
     void openPlacementDialog(int index = 0, bool rawIndex = false);
     void openChooseDetailDialog(int catFilter);
     void openChooseCatFilterDialog();

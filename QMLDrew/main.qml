@@ -71,6 +71,7 @@ ApplicationWindow {
         }
         onShowDetailInfo:
         {
+            detailInfoDlg.detail = detailID
             //вычисление положения диалога с информацией о детали
             detailInfoDlg.y = mainDetails.coorY
             detailInfoDlg.x = mainDetails.coorX

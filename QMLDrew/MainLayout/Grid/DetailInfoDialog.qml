@@ -8,6 +8,7 @@ Dialog {
     property int margin: 11
     property int rad: 30
     property int sizeOfItems: 70
+    property int detail
     height: 400
     width: 490
 
@@ -208,16 +209,16 @@ Dialog {
             Image {
                 fillMode: Image.PreserveAspectFit
                 anchors.fill: parent
-                source: "./../../assets/clr_addBttn.png"
+                source: "./../../assets/clr_edit.png"
             }
-            /*MouseArea {
+            MouseArea {
                 width: parent.width
                 height: parent.height
                 onClicked: {
-                    appCore.openPlacementDialog(idindex)
+                    appCore.openDetailDialog(detail)
                     close()
                 }
-            }*/
+            }
         }
     }
 
