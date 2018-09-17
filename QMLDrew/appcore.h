@@ -25,6 +25,7 @@ private:
     QStringListModel m_ShowDetailsModel;//модель деталей для показа на основном экране
     QStringListModel m_ShowSubCatModel;//модель для показа подкатегорий в диалоге детали
     QStringListModel m_ShowColorModel;//модель для показа цвета в расположении
+    QStringListModel m_ShowColorIdModel;//модель для показа цвета в расположении
     QStringListModel m_ChooseCatModel;//модель для выбора фильтра подкатегорий
     QStringListModel m_ChooseColorModel;//модель для выбора фильтра цвета
     QStringListModel m_ColorFamilyModel2Choose;//модель для выбора фильтра цвета

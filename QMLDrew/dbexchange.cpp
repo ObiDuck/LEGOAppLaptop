@@ -392,6 +392,7 @@ QStringList DBExchange::getColorsList()
   QStringList list;
   QSqlRecord record;
   tableModel->setTable(name);
+  tableModel->setFilter(QString("Family != '%1' AND Family != '%2' AND Family != '%3'").arg(1).arg(2).arg(13));
   tableModel->select();
   while(tableModel->canFetchMore())
     tableModel->fetchMore();
@@ -401,6 +402,107 @@ QStringList DBExchange::getColorsList()
     record = tableModel->record(i);
     list.push_back(record.value("ColorValue").toString());
   }
+  tableModel->clear();
+
+  tableModel->setTable(name);
+  tableModel->setFilter(QString("Family = '%1'").arg(1));
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  yet = tableModel->rowCount();
+  for (int i = 0; i < yet; i++)
+  {
+    record = tableModel->record(i);
+    list.push_back(record.value("ColorValue").toString());
+  }
+  tableModel->clear();
+
+
+  tableModel->setTable(name);
+  tableModel->setFilter(QString("Family = '%1'").arg(2));
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  yet = tableModel->rowCount();
+  for (int i = 0; i < yet; i++)
+  {
+    record = tableModel->record(i);
+    list.push_back(record.value("ColorValue").toString());
+  }
+  tableModel->clear();
+
+
+  tableModel->setTable(name);
+  tableModel->setFilter(QString("Family = '%1'").arg(13));
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  yet = tableModel->rowCount();
+  for (int i = 0; i < yet; i++)
+  {
+    record = tableModel->record(i);
+    list.push_back(record.value("ColorValue").toString());
+  }
+  tableModel->clear();
+  return list;
+}
+
+QStringList DBExchange::getColorsIdList()
+{
+  QStringList list;
+  QSqlRecord record;
+  tableModel->setTable(name);
+  tableModel->setFilter(QString("Family != '%1' AND Family != '%2' AND Family != '%3'").arg(1).arg(2).arg(13));
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  int yet = tableModel->rowCount();
+  for (int i = 0; i < yet; i++)
+  {
+    record = tableModel->record(i);
+    list.push_back(record.value("id").toString());
+  }
+  tableModel->clear();
+
+  tableModel->setTable(name);
+  tableModel->setFilter(QString("Family = '%1'").arg(1));
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  yet = tableModel->rowCount();
+  for (int i = 0; i < yet; i++)
+  {
+    record = tableModel->record(i);
+   list.push_back(record.value("id").toString());
+    }
+  tableModel->clear();
+
+
+  tableModel->setTable(name);
+  tableModel->setFilter(QString("Family = '%1'").arg(2));
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  yet = tableModel->rowCount();
+  for (int i = 0; i < yet; i++)
+  {
+    record = tableModel->record(i);
+    list.push_back(record.value("id").toString());
+  }
+  tableModel->clear();
+
+
+  tableModel->setTable(name);
+  tableModel->setFilter(QString("Family = '%1'").arg(13));
+  tableModel->select();
+  while(tableModel->canFetchMore())
+    tableModel->fetchMore();
+  yet = tableModel->rowCount();
+  for (int i = 0; i < yet; i++)
+  {
+    record = tableModel->record(i);
+    list.push_back(record.value("id").toString());
+   }
   tableModel->clear();
   return list;
 }
@@ -435,6 +537,7 @@ QString DBExchange::getFamilyColor(int id)
   tableModel->clear();
   if (dataToSend == "1") dataToSend = "T";
   else if (dataToSend == "2") dataToSend = "M";
+  else if (dataToSend == "13") dataToSend = "L";
   else dataToSend = "";
 
   return dataToSend;
@@ -453,6 +556,7 @@ QString DBExchange::getFamilyColor(QString id)
   tableModel->clear();
   if (dataToSend == "1") dataToSend = "T";
   else if (dataToSend == "2") dataToSend = "M";
+  else if (dataToSend == "13") dataToSend = "L";
   else dataToSend = "";
 
   return dataToSend;

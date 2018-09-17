@@ -118,10 +118,10 @@ Dialog {
                                          Rectangle {
                                              width: parent.width
                                              height: parent.height
-                                             color: display
+                                             color: appExchangeColourEdit.getColor(display)
                                              Layout.fillWidth: true
                                              Text {
-                                                 text: appExchangeColourEdit.getFamilyColor(display)
+                                                 text: appExchangeColourEdit.getFamilyColor(appExchangeColourEdit.getColor(display))
                                                  anchors.centerIn: parent
                                                  font.pointSize: 48
                                                  fontSizeMode: Text.Fit
@@ -133,9 +133,9 @@ Dialog {
                                              height: parent.height
                                              hoverEnabled: true
                                              onClicked: {
-                                                 mainColor.color = display
+                                                 mainColor.color = appExchangeColourEdit.getColor(display)
                                                  showColors.visible = false
-                                                 colorID = index + 1
+                                                 colorID = display
                                              }
                                          }
                                      }                                  
